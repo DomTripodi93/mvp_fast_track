@@ -1,0 +1,6 @@
+envp
+envp/*
+__pycache__
+*.pyc
+encryptionKeys
+encryptionKeys/*
