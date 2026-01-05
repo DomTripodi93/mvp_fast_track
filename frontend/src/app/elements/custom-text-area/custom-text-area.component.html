@@ -1,0 +1,137 @@
+@if(label !== ""){
+    <label>{{ label }}</label>
+}
+<div class="html-editor-container" [ngClass]="boxShadow ? 'editor-box-shadow' : ''">
+    @if(showToolbar){
+        <div class="toolbar" [ngClass]="(disabled || softDisabled) ? 'toolbar-disabled' : ''">
+            <button type="button" (click)="execCommand('bold')" class="toolbar-btn" title="Bold"
+                [disabled]="disabled || softDisabled">
+                <strong>B</strong>
+            </button>
+            <button type="button" (click)="execCommand('italic')" class="toolbar-btn" title="Italic"
+                [disabled]="disabled || softDisabled">
+                <em>I</em>
+            </button>
+            <button type="button" (click)="execCommand('underline')" class="toolbar-btn" title="Underline"
+                [disabled]="disabled || softDisabled">
+                <u>U</u>
+            </button>
+            <button type="button" (click)="execCommand('strikeThrough')" class="toolbar-btn" title="Strikethrough"
+                [disabled]="disabled || softDisabled">
+                <s>S</s>
+            </button>
+            <span class="separator"></span>
+            <button type="button" (click)="execCommand('justifyLeft')" 
+                class="toolbar-btn align-inner-left"
+                title="Align Left" [disabled]="disabled || softDisabled">
+                ≡
+            </button>
+            <button type="button" (click)="execCommand('justifyCenter')" 
+                class="toolbar-btn" title="Align Center"
+                [disabled]="disabled || softDisabled">
+                ≡
+            </button>
+            <button type="button" (click)="execCommand('justifyRight')" 
+                class="toolbar-btn align-inner-right" title="Align Right"
+                [disabled]="disabled || softDisabled">
+                ≡
+            </button>
+            <span class="separator"></span>
+            <button type="button" (click)="execCommand('insertUnorderedList')" class="toolbar-btn" title="Bullet List"
+                [disabled]="disabled || softDisabled">
+                •
+            </button>
+            <button type="button" (click)="execCommand('insertOrderedList')" class="toolbar-btn" title="Numbered List"
+                [disabled]="disabled || softDisabled">
+                1.
+            </button>
+            <!-- <span class="separator"></span> -->
+            <!-- <button type="button" (click)="insertLink()" class="toolbar-btn" title="Insert Link"
+                [disabled]="disabled || softDisabled">
+                🔗
+            </button> -->
+            <!-- <button type="button" (click)="insertImage()" class="toolbar-btn" title="Insert Image"
+                [disabled]="disabled || softDisabled">
+                🖼
+            </button> -->
+            <span class="separator"></span>
+            <button type="button" (click)="decreaseFontSize()" class="toolbar-btn" title="Decrease Font Size"
+                [disabled]="disabled || softDisabled">
+                A↓
+            </button>
+            <button type="button" (click)="increaseFontSize()" class="toolbar-btn" title="Increase Font Size"
+                [disabled]="disabled || softDisabled">
+                A↑
+            </button>
+            <span class="separator"></span>
+            <label class="toolbar-btn color-picker-btn purple-text" 
+                title="Text Color" [class.disabled]="disabled || softDisabled"
+                (mousedown)="onColorPickerClick()">
+                <input type="color" (change)="changeColor('foreColor', $event)" [disabled]="disabled || softDisabled"
+                    class="color-input">
+                    A
+                <!-- <span class="color-icon">A</span> -->
+            </label>
+            <label class="toolbar-btn color-picker-btn" title="Highlight" [class.disabled]="disabled || softDisabled"
+                (mousedown)="onColorPickerClick()">
+                <input type="color" (change)="changeColor('hiliteColor', $event)" [disabled]="disabled || softDisabled"
+                    class="color-input">
+                <span class="color-icon">🎨</span>
+            </label>
+            <span class="separator"></span>
+            <button type="button" (click)="execCommand('removeFormat')" 
+                class="toolbar-btn red-ex" title="Clear Formatting"
+                [disabled]="disabled || softDisabled">
+                ✖
+            </button>
+            @if(showSourceToggle){
+                <span class="separator"></span>
+                <button type="button" (click)="toggleSource()" class="toolbar-btn"
+                    [title]="showSource ? 'Visual Editor' : 'Source Code'" [disabled]="disabled || softDisabled">
+                    @if(showSource) {
+                    📝
+                    } @else {
+                    &lt;/&gt;
+                    }
+                </button>
+            }
+        </div>
+    }
+
+    @if(!showSource){
+        <div #editor class="editor-content" [attr.contenteditable]="!(disabled || softDisabled)"
+            [attr.data-placeholder]="placeholder" (input)="onInput($event)" (blur)="onEditorBlur()" [style.min-height]="minHeight"
+            [ngClass]="softDisabled ? 'soft-disabled' : disabled ? 'disabled' : ''"></div>
+    } @else {
+        <textarea #sourceEditor class="source-editor" [value]="sourceValue" (input)="onSourceInput($event)"
+            [style.min-height]="minHeight" [disabled]="disabled || softDisabled"
+            [ngClass]="softDisabled ? 'soft-disabled' : disabled ? 'disabled' : ''"></textarea>
+    }
+
+    @if(loading){
+        <div class="loading-overlay">
+            <app-loading-spinner width="24px" height="24px"></app-loading-spinner>
+        </div>
+    }
+</div>
+@if(firstLinkUrl){
+    <div class="link-preview">
+        <a [href]="firstLinkUrl" target="_blank" rel="noopener noreferrer" class="link-preview-link">
+            @if(showLinkImage && firstLinkPreviewImage){
+                <img [src]="firstLinkPreviewImage" 
+                     alt="Link preview" 
+                     class="link-preview-image"
+                     (error)="showLinkImage = false">
+            }
+            <div class="link-preview-text">
+                @if(firstLinkTitle){
+                    <div class="link-preview-title">{{ firstLinkTitle }}</div>
+                }
+                @if(firstLinkDescription){
+                    <div class="link-preview-description">{{ firstLinkDescription }}</div>
+                }
+                <span class="link-preview-url">{{ firstLinkUrl }}</span>
+            </div>
+        </a>
+    </div>
+}

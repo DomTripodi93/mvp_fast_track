@@ -1,0 +1,10 @@
+<svg width="120" height="120" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer eye contour with pointed corners -->
+  <path d="M10,40 Q60,0 110,40 Q60,100 10,40 Z" fill="none" stroke="#7a7a7aff" stroke-width="8"/>
+  <!-- Iris -->
+  <circle cx="60" cy="43" r="23" fill="none" stroke="#7a7a7aff" stroke-width="8"/>
+  <!-- Pupil -->
+  <circle cx="60" cy="43" r="12" fill="#7a7a7aff"/>
+  <!-- Reflection/highlight -->
+  <circle cx="70" cy="35" r="4" fill="white"/>
+</svg>

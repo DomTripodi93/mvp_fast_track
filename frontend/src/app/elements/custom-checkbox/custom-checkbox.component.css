@@ -1,0 +1,55 @@
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.check-label{
+    margin-left: 12px;
+    display: inline-block;
+}
+
+button {
+    position: relative;
+    overflow: hidden;
+    padding: 10px 16px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.checkbox {
+    height: 16px;
+    width: 16px;
+}
+
+.checkbox-edge{
+    margin-top: 3px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.disabled{
+    border: dashed rgb(131, 130, 130) 1px;
+    accent-color: rgb(175, 174, 174);
+}
+
+.disabled .checkbox{
+    cursor: not-allowed;
+}
+
+.soft-disabled{
+    accent-color: rgb(45, 115, 143);
+}
+
+.soft-disabled .checkbox{
+    cursor: default;
+}
+
+
+input{
+    margin: auto;
+}

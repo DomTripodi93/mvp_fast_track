@@ -1,0 +1,93 @@
+
+<div class="page-title">
+    {{pageName}}
+</div>
+@if(errorInfo.isError){
+    <app-error-message [errorInfo]="errorInfo"></app-error-message>
+}
+<div class="top-space grid-fit">
+    @if(optionServ.optionsAvailable) {
+        <div class="flex-any filter-fit">
+            <div class="section-lr search-width">
+                <p class="filter-label">
+                    Search:
+                </p>
+
+                <app-custom-input (onEnter)="getUserConnection()" [(value)]="searchTerm" placeholder="Search">
+                </app-custom-input>
+            </div>
+            <div class="section-lr search-width">
+                <p class="filter-label">Request User:</p>
+                <div class="filter-dropdown">
+                    <app-custom-search
+                        [startingValue]="[]"
+                        optionListKey="userInfo"
+                        [wholeObjectValue]="true"
+                        [showClearSelection]="true"
+                        [fieldNameMappings]="userConnectionServ.dropdownInfo['requestUser']['fieldMap']"
+                        [displayKeys]="optionServ.userInfoKeys"
+                        (valueChange)="setRequestUserFilter($event)">
+                    </app-custom-search>
+                </div>
+            </div>
+			<div class="section-lr search-width">
+                <p class="filter-label">Recipient User:</p>
+                <div class="filter-dropdown">
+                    <app-custom-search
+                        [startingValue]="[]"
+                        optionListKey="userInfo"
+                        [wholeObjectValue]="true"
+                        [showClearSelection]="true"
+                        [fieldNameMappings]="userConnectionServ.dropdownInfo['recipientUser']['fieldMap']"
+                        [displayKeys]="optionServ.userInfoKeys"
+                        (valueChange)="setRecipientUserFilter($event)">
+                    </app-custom-search>
+                </div>
+            </div>
+            <!--<div class="update-width">
+                <div class="centered">
+                    @if(resultsLoaded){
+                        <img class="filter-icon pointer" src="/assets/SearchIcon.png"
+                            (click)="getUserConnection()" />
+                    }
+                </div>
+            </div>-->
+            <div class="button-offset">
+                @if(resultsLoaded || !initialSearchStarted){
+                    <app-custom-button stylingMode="contained" variant="success"
+                        (click)="getUserConnection()">
+                        Update
+                    </app-custom-button>
+                } @else {
+                    <app-custom-button stylingMode="contained" [disabled]="true"
+                        [loading]="true"
+                        style="background-color:rgb(165, 162, 150); color: white">
+                        Update
+                    </app-custom-button>
+                }
+            </div>
+        </div>
+        
+        @if(singleSelection){
+            <app-user-connection-single [(selectedUserConnection)]="selectedUserConnection"
+                [allowEditing]="true"
+                [allowDeleting]="false"
+                [(addMode)]="addMode"
+                [(editMode)]="editMode"
+                (onCloseSingleComponent)="setSingleEdit(selectedUserConnection, false)"
+                ></app-user-connection-single>
+        }
+
+        @if((!resultsLoaded || savingChanges) && initialSearchStarted){
+            <app-loading-spinner width="40px" height="40px">
+            </app-loading-spinner>
+        } @else if(resultsLoaded && initialSearchStarted){
+            @for(userConnection of userConnectionServ.userConnectionList; let i = $index; track i){
+                <app-user-connection-single 
+                    [selectedUserConnection]="userConnection">
+                </app-user-connection-single>
+            }
+        }
+    }
+</div>
+    

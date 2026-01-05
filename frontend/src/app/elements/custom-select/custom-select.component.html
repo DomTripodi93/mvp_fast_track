@@ -1,0 +1,19 @@
+
+<!-- {{isOpen}} -->
+
+<div class="custom-select" (click)="toggleDropdown()">
+    <div class="selected">{{ selectedLabel || placeholder }}</div>
+    <span class="arrow" [class.open]="isOpen">&#9662;</span>
+    @if(isOpen){
+        <ul class="options" [ngStyle]="{width: dropdownWidth}" >
+            @for(option of options; let i = $index; track i){
+                <li [class.selected]="option[valueKey] === selectedValue"
+                    [class.highlighted]="i === highlightedIndex"
+                    (click)="selectOption(option)"
+                    (mouseover)="highlightedIndex = i">
+                        {{ option[displayKey] }}
+                </li>
+            }
+        </ul>
+    }
+  </div>

@@ -1,0 +1,13 @@
+<div class="popup-overlay" (click)="onDeny()">
+  <div class="confirm-dialog">
+    <div class="confirm-message">{{ message }}</div>
+    <div class="confirm-buttons">
+      <app-custom-button variant="danger" (buttonClick)="onDeny()">
+        {{ denyText }}
+      </app-custom-button>
+      <app-custom-button variant="primary" (buttonClick)="onConfirm()">
+        {{ confirmText }}
+      </app-custom-button>
+    </div>
+  </div>
+</div>

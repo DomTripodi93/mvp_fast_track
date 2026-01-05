@@ -1,0 +1,64 @@
+.custom-select {
+    position: relative;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8.5px;
+    cursor: pointer;
+    background: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.selected {
+    flex-grow: 1;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+/* Dropdown Arrow */
+.arrow {
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
+
+.arrow.open {
+    transform: rotate(180deg);
+}
+
+/* Dropdown List */
+.options {
+    position: absolute;
+    top: 100%;
+    /* Ensures the dropdown appears below the select box */
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.options li {
+    padding: 3px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.options li:hover,
+.options .highlighted {
+    background: #007bff;
+    color: white;
+}
+
+.options .selected {
+    font-weight: bold;
+}

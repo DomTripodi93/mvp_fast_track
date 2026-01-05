@@ -1,0 +1,89 @@
+<div 
+  class="upload-container middle"
+  [ngStyle]="boxStyle"
+  [ngClass]="isDragOver ? 'drag-over' : ''"
+  (drop)="onDrop($event)"
+  (dragover)="onDragOver($event)"
+  (dragenter)="onDragEnter($event)"
+  (dragleave)="onDragLeave($event)">
+  <div class="selection desktop-only">Drag & Drop a {{photoOnly ? 'photo' : 'file'}} here or</div>
+  <!-- <button type="button" (click)="fileInput.click()">Select File</button> -->
+  <div
+    (dragenter)="onDragEnter($event)"
+    (dragleave)="onDragLeave($event)">
+    <div class="inline-buttons">
+        @if(multiSelect){
+            <app-custom-button (buttonClick)="fileInput.click()" variant="primary">
+                Select {{photoOnly ? 'Photos' : 'Files'}}
+            </app-custom-button>
+            <input #fileInput type="file" multiple (change)="onFileSelected($event)" [accept]="photoOnly ? 'image/*' : ''" hidden />
+        } @else {
+            <app-custom-button (buttonClick)="fileInput.click()" variant="primary">
+                Select {{photoOnly ? 'Photo' : 'File'}}
+            </app-custom-button>
+            <input #fileInput type="file" (change)="onFileSelected($event)" [accept]="photoOnly ? 'image/*' : ''" hidden />
+        }
+    </div>
+    @if(selectedFiles.length > 0){
+        <div class="inline-buttons">
+            <app-custom-button (buttonClick)="onSubmitClick()" variant="success">
+                Submit
+            </app-custom-button>
+        </div>
+    }
+    @if(selectedFiles.length > 0 && allowCancel){
+        <div class="inline-buttons">
+            <app-custom-button (buttonClick)="cancelUpload()" variant="danger">
+                Cancel
+            </app-custom-button>
+        </div>
+    }
+  </div>
+</div>
+
+@if(selectedFiles.length > 0 && showPreview){
+    @if(photoOnly && imagePreviewUrl){
+        <div [ngStyle]="boxStyle" class="image-preview-container">
+            <img [src]="imagePreviewUrl" alt="Preview" class="image-preview">
+            <div class="preview-actions">
+                <app-custom-button [square]="true" 
+                    variant="danger"
+                    [boxShadow]="false"
+                    (buttonClick)="onRemoveFile(0)">
+                    x
+                </app-custom-button>
+            </div>
+        </div>
+    } @else if(multiSelect){
+        @for(selectedFile of selectedFiles; let index=$index; track index){
+            <div [ngStyle]="boxStyle" 
+                class="file-item middle">
+                File #{{index + 1}}: {{ selectedFile.name }}
+                <div class="flex-left">
+                    <app-custom-button [square]="true" 
+                        [boxShadow]="false"
+                        variant="danger"
+                        (buttonClick)="onRemoveFile(index)">
+                        x
+                    </app-custom-button>
+                </div>
+            </div>
+        }
+    } @else {
+        <div [ngStyle]="boxStyle"
+            class="file-item middle">
+            Selected file: 
+            <div class="pad-bold">
+                {{ selectedFiles[0].name }}
+            </div>
+            <div class="flex-left">
+                <app-custom-button [square]="true" 
+                    variant="danger"
+                    [boxShadow]="false"
+                    (buttonClick)="onRemoveFile(0)">
+                    x
+                </app-custom-button>
+            </div>
+        </div>
+    }
+}

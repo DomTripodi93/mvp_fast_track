@@ -1,0 +1,310 @@
+
+@if(errorInfo.isError){
+    <div class="top-space-sm">
+        <app-error-message [errorInfo]="errorInfo"></app-error-message>
+    </div>
+}
+
+@if(savingChanges){
+    <app-loading-spinner width="40px" height="40px"></app-loading-spinner>
+} @else {
+    <!-- Profile Privacy -->
+    <div class="profile-priv-select">
+        <div class="profile-priv-inner">
+            <div class="field-container">
+                <h5 class="label-sm top-space-xsm">Profile Privacy</h5>
+            </div>
+            <div class="field-container">
+                <div class="field-edit">
+                    <app-custom-search [(valueSingle)]="selectedUserSettings.profilePrivacyMode" [optionList]="optionServ.optionLists['privacyLevelsProfile']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('profilePrivacyMode'))"></app-custom-search>
+                </div>
+            </div>
+        </div>
+        <div class="inline button-area">
+            <div class="save-button-grid inline-buttons">
+                <img class="edit-icon " 
+                    src="/assets/cancel.png"
+                    (click)="cancelUpdate()" /> 
+            </div>
+        </div>
+        <div class="inline button-area">
+            <div class="save-button-grid inline-buttons">
+                <img class="edit-icon " 
+                    src="/assets/save.png"
+                    (click)="submitUpdate()" /> 
+            </div>
+        </div>
+    </div>
+    <!-- <div class="separator"></div> -->
+    
+    <!-- Pronouns -->
+    <div class="user-edit-grid pronouns-edit">
+        <div class="field-container">
+            <h5 class="label-sm top-space-xsm">Pronouns</h5>
+        </div>
+        <div class="default-edit-grid">
+            <div class="field-container">
+                <div class="field-edit">
+                    <app-custom-search [(valueSingle)]="selectedUserInfo.pronouns" [optionList]="optionServ.optionLists['pronouns']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('pronouns'))"></app-custom-search>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="field-container">
+            <label class="field-label">Pronouns Privacy:</label>
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserSettings.pronounsPrivacyMode" [optionList]="optionServ.optionLists['privacyLevels']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('pronounsPrivacyMode'))"></app-custom-search>
+            </div>
+        </div> -->
+    </div>
+    <div class="separator"></div>
+    
+    <!-- Location -->
+    <div class="user-edit-grid">
+        <div class="field-container">
+            <h5 class="label-sm top-space-xsm">Location</h5>
+        </div>
+        <div class="default-edit-grid">
+
+            <div class="field-container">
+                <label class="field-label">Zip Code:</label>
+                <div class="field-edit">
+                    <app-custom-input  
+                        [softDisabled]="(!editMode || noEditFields.includes('zipCode'))"
+                        (onValueChanged)="setCityStateFromZip()"
+                        [(value)]="selectedUserInfo.zipCode"
+                        (focusout)="onZipFocusOut()">
+                    </app-custom-input>
+                </div>
+                @if(invalidZip && !zipIsFocused){
+                    <div class="invalid-message">
+                        Please Enter a valid zip code!
+                    </div>
+                }
+            </div>
+            <div class="field-container">
+                <label class="field-label">City & State:</label>
+                <div class="field-edit display-value-only box-shadow">
+                    {{selectedUserInfo.userCity + (selectedUserInfo.userState ? "," : "")}}
+                    {{selectedUserInfo.userState}}
+                </div>
+                <!-- <app-custom-input  
+                    [softDisabled]="true"
+                    (onValueChanged)="setCityStateFromZip()"
+                    [value]="selectedUserInfo.userCity + (selectedUserInfo.userState ? ',' : '') + selectedUserInfo.userState"
+                    (focusout)="onZipFocusOut()">
+                </app-custom-input> -->
+            </div>
+        </div>
+        <!-- <div class="field-container">
+            <h5 class="label-spacer-sm-always" for="country"></h5>
+            <label class="field-label">Country (Only Available in USA):</label>
+            <div class="field-edit">
+                <app-custom-input  
+                    [(value)]="selectedUserInfo.userCountry"
+                    [softDisabled]="true">
+                </app-custom-input>
+            </div>
+        </div> -->
+        <div class="field-container">
+            <h5 class="label-spacer-xsm-always" for="locationprivacy"></h5>
+            <!-- <label class="field-label">Location Privacy:</label> -->
+            <div class="field-edit">
+                <app-custom-search
+                    [softDisabled]="(!editMode || noEditFields.includes('cityStatePrivacyMode'))"
+                    [(valueSingle)]="selectedUserSettings.cityStatePrivacyMode"
+                    [optionList]="optionServ.optionLists['privacyLevels']"
+                    [showClearSelection]="false"
+                    [showSearch]="false">
+                </app-custom-search>
+            </div>
+        </div>
+    </div>
+    <div class="separator"></div>
+    
+    <!-- About Me -->
+    <div class="field-container">
+        <h5 class="label-sm">About Me</h5>
+        <div class="field-edit top-space-sm">
+            <app-custom-large-input
+                [softDisabled]="(!editMode || noEditFields.includes('introText'))"
+                [(value)]="selectedUserInfo.introText">
+            </app-custom-large-input>
+        </div>
+    </div>
+    <div class="separator"></div>
+    
+    <!-- Email and Phone -->
+    <div class="user-edit-grid">
+        <div class="field-container">
+            <h5 class="label-sm top-space-xsm">Email Address</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-input [(value)]="selectedUserInfo.emailAddress" [softDisabled]="(!editMode || noEditFields.includes('emailAddress'))"></app-custom-input>
+            </div>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserSettings.emailPrivacyMode" [optionList]="optionServ.optionLists['privacyLevels']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+        <div class="field-container">
+            <h5 class="label-sm top-space-xsm">Phone Number</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-input [(value)]="selectedUserInfo.phoneNumber"
+                    [softDisabled]="(!editMode || noEditFields.includes('phoneNumber'))"
+                    type="phone"></app-custom-input>
+            </div>
+        </div>
+        <div class="field-container">
+            <!-- <label class="field-label">Phone Privacy:</label> -->
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserSettings.phonePrivacyMode"
+                    [optionList]="optionServ.optionLists['privacyLevels']" [showClearSelection]="false" [showSearch]="false"
+                    [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+    </div>
+    <div class="separator"></div>
+    
+    <!-- Birthday and Sexual Orientation -->
+    <div class="user-edit-grid">
+        <div class="field-container">
+            <h5 class="label-sm top-space-xsm">Birthday</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-datebox [(value)]="selectedUserInfo.birthday" [softDisabled]="(!editMode || noEditFields.includes('birthday'))"></app-custom-datebox>
+            </div>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserSettings.birthdayPrivacyMode" [optionList]="optionServ.optionLists['privacyLevels']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+        <div class="field-container">
+            <h5 class="label-sm top-space-xsm">Sexual Orientation</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserInfo.sexualOrientation" [optionList]="optionServ.optionLists['sexuality']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserSettings.sexualOrientationPrivacyMode" [optionList]="optionServ.optionLists['privacyLevels']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+        <div class="field-container">
+            <h5 class="label-sm top-space-xsm">Religious Group</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserInfo.religion" [optionList]="optionServ.optionLists['religiousGroups']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserSettings.religionPrivacyMode" [optionList]="optionServ.optionLists['privacyLevels']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+        <div class="field-container">
+            <h5 class="label-sm top-space-xsm">Political Affiliation</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserInfo.politicalAffiliation" [optionList]="optionServ.optionLists['policitalParties']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserSettings.politicalPrivacyMode" [optionList]="optionServ.optionLists['privacyLevels']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+    </div>
+    <div class="separator"></div>
+    
+    <!-- Ethnicity -->
+    <div class="user-edit-grid">
+        <div class="field-container">
+            <h5 class="label-sm top-space-xsm">Ethnicity</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserInfo.ethnicity" [optionList]="optionServ.optionLists['ethnicityOptions']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserSettings.ethnicityPrivacyMode" [optionList]="optionServ.optionLists['privacyLevels']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+        <div class="field-container">
+            <h5 class="label-sm top-space-xsm">Ethnicity Sub</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserInfo.ethnicitySub" [optionList]="optionServ.ethnicityDetailedOptions[selectedUserInfo.ethnicity ?? 'Other']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+        <div class="field-container"></div>
+    </div>
+    <div class="separator"></div>
+    
+    <!-- Kids/Schools -->
+    <div class="user-edit-grid">
+        <div class="field-container">
+            <h5 class="label-sm top-space-xsm">Kids/Schools</h5>
+        </div>
+        <div class="default-edit-grid kids-mobile-margin">
+            <div class="field-container-kids">
+                <label class="field-label">Have Kids In School:</label>
+                <div class="field-edit-kids toggle-box middle top-space-sm">
+                    <app-custom-toggle size="22px" [(value)]="hasKids"
+                        (valueChange)="clearHasKids()"></app-custom-toggle>
+                </div>
+            </div>
+            @if(hasKids){
+                <div class="field-container-kids">
+                    <div class="field-edit centered">
+                        <app-custom-checkbox size="22px" [(value)]="selectedUserSettings.hasPreschoolKids"
+                            [softDisabled]="(!editMode || noEditFields.includes('hasPreschoolKids'))"
+                            label="Preschool"></app-custom-checkbox>
+                    </div>
+                    <div class="field-edit centered">
+                        <app-custom-checkbox size="22px" [(value)]="selectedUserSettings.hasElementaryKids"
+                            [softDisabled]="(!editMode || noEditFields.includes('hasElementaryKids'))"
+                            label="Elementary School"></app-custom-checkbox>
+                    </div>
+                </div>
+                <div class="field-container-kids">
+                    <div class="field-edit centered">
+                        <app-custom-checkbox size="22px" [(value)]="selectedUserSettings.hasMiddleSchoolKids"
+                            [softDisabled]="(!editMode || noEditFields.includes('hasMiddleSchoolKids'))"
+                            label="Middle School"></app-custom-checkbox>
+                    </div>
+                    <div class="field-edit centered">
+                        <app-custom-checkbox size="22px" [(value)]="selectedUserSettings.hasHighSchoolKids"
+                            [softDisabled]="(!editMode || noEditFields.includes('hasHighSchoolKids'))"
+                            label="High School"></app-custom-checkbox>
+                    </div>
+                </div>
+                <div class="field-container-kids">
+                    <div class="field-edit centered">
+                        <app-custom-checkbox size="22px" [(value)]="selectedUserSettings.hasCollegeKids"
+                            [softDisabled]="(!editMode || noEditFields.includes('hasCollegeKids'))"
+                            label="College"></app-custom-checkbox>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="field-container">
+            <!-- <h5 class="label-spacer-xsm-always" for="locationprivacy"></h5> -->
+            <div class="field-edit">
+                <app-custom-search [(valueSingle)]="selectedUserSettings.hasKidsPrivacyMode" [optionList]="optionServ.optionLists['privacyLevels']" [showClearSelection]="false" [showSearch]="false" [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode'))"></app-custom-search>
+            </div>
+        </div>
+    </div>
+}

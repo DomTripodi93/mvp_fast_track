@@ -1,0 +1,24 @@
+<div class="popup-overlay" (click)="handleOverlayClick($event)">
+    <div class="popup-container" 
+         [style.width]="width" 
+         [style.height]="height"
+         (click)="stopPropagation($event)">
+        
+        @if(headerText !== '' || showCloseButton){
+            <div class="popup-header">
+                @if(headerText !== ''){
+                    <h3 class="popup-title">{{ headerText }}</h3>
+                }
+                @if(showCloseButton){
+                    <button class="popup-close-btn" (click)="closePopup()" type="button">
+                        ✕
+                    </button>
+                }
+            </div>
+        }
+        
+        <div class="popup-content">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

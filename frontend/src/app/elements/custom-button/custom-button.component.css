@@ -1,0 +1,148 @@
+button {
+    position: relative;
+    overflow: hidden;
+    font-size: 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.button-box-shadow {
+    box-shadow: 1px 3px 2px gray;
+}
+
+.btn-padding {
+    padding: 7px 23px;
+}
+
+.btn-padding-square {
+    padding: 7px 7px;
+}
+
+/* Primary Button */
+.btn-primary {
+    background-color: #0056b3;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #003f80;
+}
+
+.btn-primary:active {
+    background-color: #003569;
+    /* Darker shade while clicking */
+    transform: scale(0.98);
+    /* Slight shrink effect */
+}
+
+/* Secondary Button */
+.btn-secondary {
+    background-color: #0288bd;
+    color: white;
+}
+
+
+.btn-gray1 {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-gray2 {
+    background-color: #a8b3bd;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-secondary:active {
+    background-color: #494f54;
+    transform: scale(0.98);
+}
+
+/* Danger Button */
+.btn-danger {
+    background-color: #bd2130;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #a71d2a;
+}
+
+.btn-danger:active {
+    background-color: #961a26;
+    transform: scale(0.98);
+}
+
+/* Info Button */
+.btn-info {
+    background-color: rgb(219, 231, 42);
+}
+
+.btn-info:hover {
+    background-color: rgb(194, 206, 34);
+    /* color: white; */
+}
+
+.btn-info:active {
+    background-color: rgb(161, 170, 29);
+    transform: scale(0.98);
+}
+
+/* Success Button */
+.btn-success {
+    background-color: #22a81e;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #1a8316;
+}
+
+.btn-success:active {
+    background-color: #1a7715;
+    transform: scale(0.98);
+}
+
+.disabled {
+    background-color: rgb(165, 162, 150);
+    color: white;
+    cursor: not-allowed;
+}
+
+.btn-text-margin {
+    font-family: -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Roboto",
+        "Oxygen",
+        "Ubuntu",
+        "Cantarell",
+        "Fira Sans",
+        "Droid Sans",
+        "Helvetica Neue",
+        sans-serif;
+    font-weight: 600;
+    white-space: nowrap;
+    margin: 1px auto 1px auto;
+}
+
+.spin-margin {
+    margin: 1px 0px 1px 10px;
+}
+
+
+@media only screen and (max-width: 800px) {
+    .btn-text-margin {
+        margin: 2px auto 2px auto;
+        font-size: 14px;
+    }
+
+    .spin-margin {
+        margin: 4px 0px 4px 0px;
+    }
+}

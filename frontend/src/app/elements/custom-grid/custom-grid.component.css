@@ -1,0 +1,194 @@
+/*
+Simulated border colapse with sticky borders 
+by using nth-child border selection and no border spacing
+instead of border-colapse
+*/
+
+table {
+    border-spacing: 0;
+}
+
+table th {
+    border-top: 1px solid #c7c7c7;
+    border-top: 1px solid #c0c0c0;
+    border-bottom: 1px solid #c0c0c0;
+    border-right: 1px solid #c0c0c0;
+}
+
+/* table th:last-child {
+    border-right: 0px;
+} */
+
+/* th {
+    position: sticky;
+}
+
+table tr th {
+    top: 0;
+    border-top: none;
+    background-color: rgb(211, 210, 210);
+} */
+
+tr {
+    content-visibility: auto;
+    contain: strict;
+}
+
+table tr:nth-child(1) th {
+    top: 0;
+}
+
+table tr:nth-child(2) th {
+    top: 27px;
+}
+
+table td {
+    border-bottom: 1px solid #c0c0c0;
+    border-right: 1px solid #c0c0c0;
+}
+
+/* table td:last-child {
+    border-right: 0px;
+} */
+
+table th:first-child,
+table td:first-child {
+    border-left: 1px solid #c0c0c0;
+}
+
+
+
+td {
+    background-color: rgb(255, 255, 255);
+}
+
+.every-other:nth-child(even) td {
+    background-color: rgb(233, 232, 232);
+}
+
+.every-other:nth-child(odd) td {
+    background-color: rgb(255, 255, 255);
+}
+
+th {
+    background-color: rgb(212, 212, 212);
+    /* overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;  */
+}
+
+.context-menu {
+    position: absolute;
+    border: black solid 1px;
+    background-color: rgb(236, 236, 236);
+    /* padding: 10px; */
+    border-radius: 7px;
+    z-index: 110;
+}
+
+.context-button {
+    margin: 7px 3px;
+}
+
+thead {
+    z-index: 15;
+    position: sticky;
+    top: 0;
+}
+
+.fix-left {
+    z-index: 100;
+    position: sticky;
+    left: 0;
+}
+
+.fix-right {
+    z-index: 100;
+    position: sticky;
+    right: 0;
+}
+
+.number-td {
+    text-align: right;
+}
+
+th,
+td {
+    padding: 5px;
+    white-space: nowrap;
+    min-width: 0px;
+    text-overflow: ellipsis;
+    /* overflow: hidden; */
+}
+
+.default-td{
+    overflow: hidden;
+}
+
+.dropdown{
+    position: relative;
+    z-index: 1;
+}
+
+.editing-td {
+    padding: 0px;
+}
+
+.editing-td.dropdown {
+    z-index: 12!important;
+}
+
+.check-box-td {
+    padding: 0px;
+}
+
+table {
+    table-layout: fixed;
+    width: auto;
+}
+
+.table-window {
+    display: inline-block;
+    overflow: auto;
+    border-bottom: 1px solid #c0c0c0;
+    max-width: 100%;
+}
+
+.table-and-buttons {
+    display: inline-block;
+    max-width: 100%;
+}
+
+/* .cell-text {
+    width: fit-content;
+} */
+
+.filter-row {
+    padding: 0px;
+    overflow: visible;
+}
+
+.grid-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    margin-left: auto;
+}
+
+
+
+/* .icon-right,
+.icon-left {
+    height: 25px;
+    right: 3px;
+    margin-right: 0;
+    color: #888;
+    cursor: pointer;
+}
+
+.header-width-icon {
+    width: calc(100% - 29px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+} */

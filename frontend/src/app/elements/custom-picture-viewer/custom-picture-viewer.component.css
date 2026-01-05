@@ -1,0 +1,37 @@
+.viewer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #f5f5f5; */
+  padding-bottom: 20px;
+}
+
+.viewer-canvas {
+  cursor: move;
+  border: 2px solid #ddd;
+  /* background-color: #fff; */
+  display: block;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.content-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

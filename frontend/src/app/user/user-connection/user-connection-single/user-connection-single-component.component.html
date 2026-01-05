@@ -1,0 +1,136 @@
+
+<div class="single-item-container">
+    @if(!addMode && !nested){
+        <div class="flex-any">
+            <div class="field-container">
+                @if(resultsLoaded){
+                    <app-custom-button stylingMode="contained" variant="danger"
+                        (click)="closeSingleComponent()">
+                        Close Detail
+                    </app-custom-button>
+                } 
+            </div>
+        </div>
+    } 
+    @if(errorInfo.isError){
+        <app-error-message [errorInfo]="errorInfo"></app-error-message>
+    }
+    <div class="default-edit-grid">
+        @if(savingChanges) {
+            <app-loading-spinner width="40px" height="40px">
+            </app-loading-spinner>
+        } @else {
+            <div class="field-container">
+                <label class="field-label">Is Active:</label>
+                <div class="field-edit centered">
+                    <app-custom-checkbox size='22px' 
+                        [(value)]="selectedUserConnection.isActive"
+                        [softDisabled]="(!editMode || noEditFields.includes('isActive')) && !addMode">
+                    </app-custom-checkbox>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">*Request User:</label>
+                <div class="field-edit">
+                    <app-custom-search
+                        [startingValue]="[selectedUserConnection]"
+                        optionListKey="userInfo"
+                        [wholeObjectValue]="true"
+                        [showClearSelection]="true"
+                        [fieldNameMappings]="userConnectionServ.dropdownInfo['requestUser']['fieldMap']"
+                        [displayKeys]="optionServ.userInfoKeys"
+                        (valueChange)="setRequestUser($event)"
+                        [softDisabled]="!addMode">
+                    </app-custom-search>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">*Recipient User:</label>
+                <div class="field-edit">
+                    <app-custom-search
+                        [startingValue]="[selectedUserConnection]"
+                        optionListKey="userInfo"
+                        [wholeObjectValue]="true"
+                        [showClearSelection]="true"
+                        [fieldNameMappings]="userConnectionServ.dropdownInfo['recipientUser']['fieldMap']"
+                        [displayKeys]="optionServ.userInfoKeys"
+                        (valueChange)="setRecipientUser($event)"
+                        [softDisabled]="!addMode">
+                    </app-custom-search>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Is Requestor Anonymous:</label>
+                <div class="field-edit centered">
+                    <app-custom-checkbox size='22px' 
+                        [(value)]="selectedUserConnection.isRequestorAnonymous"
+                        [softDisabled]="(!editMode || noEditFields.includes('isRequestorAnonymous')) && !addMode">
+                    </app-custom-checkbox>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Is Recipient Anonymous:</label>
+                <div class="field-edit centered">
+                    <app-custom-checkbox size='22px' 
+                        [(value)]="selectedUserConnection.isRecipientAnonymous"
+                        [softDisabled]="(!editMode || noEditFields.includes('isRecipientAnonymous')) && !addMode">
+                    </app-custom-checkbox>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Is Accepted:</label>
+                <div class="field-edit centered">
+                    <app-custom-checkbox size='22px' 
+                        [(value)]="selectedUserConnection.isAccepted"
+                        [softDisabled]="(!editMode || noEditFields.includes('isAccepted')) && !addMode">
+                    </app-custom-checkbox>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Is Block:</label>
+                <div class="field-edit centered">
+                    <app-custom-checkbox size='22px' 
+                        [(value)]="selectedUserConnection.isBlock"
+                        [softDisabled]="(!editMode || noEditFields.includes('isBlock')) && !addMode">
+                    </app-custom-checkbox>
+                </div>
+            </div>
+        }
+    </div>
+    @if(editMode && !savingChanges){
+        <div class="save-button-grid">
+            <div class="field-container">
+                <app-custom-button stylingMode="contained" variant="danger"
+                    (click)="setEditMode(false)">
+                    Cancel
+                </app-custom-button>
+            </div>
+            <div class="field-container">
+                <app-custom-button stylingMode="contained" variant="success"
+                    (click)="upsertUserConnection()"
+                    [disabled]="!canSubmit">
+                    Submit
+                </app-custom-button>
+            </div>
+        </div>
+    } @else {
+        <div class="edit-button-grid">
+            @if(allowDeleting) {
+                <div class="field-container">
+                    <app-custom-button stylingMode="contained" variant="danger"
+                        (click)="deleteUserConnection()">
+                        Delete
+                    </app-custom-button>
+                </div>
+            }
+            @if(allowEditing) {
+                <div class="field-container">
+                    <app-custom-button stylingMode="contained" variant="primary"
+                        (click)="setEditMode(true)">
+                        Edit
+                    </app-custom-button>
+                </div>
+            }
+        </div>
+    }
+</div>

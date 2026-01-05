@@ -1,0 +1,17 @@
+<button [disabled]="disabled || loading" (click)="onClick($event)" 
+    [ngClass]="(loading || disabled ? 'disabled' : btnClass) 
+        + (square ? ' btn-padding-square' : ' btn-padding')
+        + (boxShadow ? ' button-box-shadow' : '')"
+    [ngStyle]="width != '' ? { width: width } : {}">
+    <div [ngClass]="loading ? 'flex-line' : ''">
+        <div class="btn-text-margin">
+            <ng-content></ng-content>
+        </div>
+        @if(loading){
+            <div class="spin-margin">
+                <app-loading-spinner width="10px" height="10px">
+                </app-loading-spinner>
+            </div>
+        }
+    </div>
+</button>

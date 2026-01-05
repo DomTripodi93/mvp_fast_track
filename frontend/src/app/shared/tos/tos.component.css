@@ -1,0 +1,19 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+p {
+    margin-bottom: 15px;
+}
+ul {
+    margin-left: 20px;
+}
+.text-card{
+    color: rgb(255, 255, 255);
+}
+
+.paragraph-pad{
+    padding-bottom: 20px;
+}

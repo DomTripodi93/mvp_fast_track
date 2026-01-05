@@ -1,0 +1,29 @@
+<div class="cropper-container">
+    <canvas #canvas
+        class="cropper-canvas"
+        (mousedown)="onMouseDown($event)"
+        (mousemove)="onMouseMove($event)"
+        (mouseup)="onMouseUp()"
+        (mouseleave)="onMouseUp()"
+        (wheel)="onWheel($event)"
+        [style.width]="width"
+        [style.height]="height">
+    </canvas>
+    <img #imageElement [src]="imgSrc" style="display: none;">
+</div>
+@if(!imageIsReady){
+    <app-loading-spinner width="50px" height="50px">
+    </app-loading-spinner>
+}
+<div class="save-button-grid">
+    <div class="field-container">
+        <app-custom-button (click)="cancelCrop()" variant="danger">
+            Cancel
+        </app-custom-button>
+    </div>
+    <div class="field-container">
+        <app-custom-button (click)="emitCroppedImage()">
+            Save
+        </app-custom-button>
+    </div>
+</div>

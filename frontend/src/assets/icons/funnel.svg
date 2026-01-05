@@ -1,0 +1,28 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Funnel cone -->
+  <path
+    d="M10,19 Q30,25 54,19 L40,36 Q32,48 24,36 L10,19 Z"
+    fill="rgba(180,200,220,0.15)"
+    stroke="#3d3b3bff"
+    stroke-width="2"
+  />
+  <!-- Rim ellipse -->
+  <ellipse
+    cx="32" cy="17" rx="24" ry="5"
+    fill="rgba(255,255,255,0.25)"
+    stroke="#3d3b3bff"
+    stroke-width="1"
+  />
+  <!-- Stem -->
+  <rect
+    x="26" y="37" width="12" height="21" rx="5"
+    fill="rgba(180,200,220,0.20)"
+    stroke="#3d3b3bff"
+    stroke-width="1"
+  />
+  <!-- Highlight ellipse on stem -->
+  <ellipse
+    cx="32" cy="55" rx="5" ry="2"
+    fill="rgba(255,255,255,0.13)"
+  />
+</svg>

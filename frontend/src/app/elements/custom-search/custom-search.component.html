@@ -1,0 +1,60 @@
+
+<!-- {{isOpen}} -->
+
+<div>
+    @if (showSelection) {
+        <div class="custom-select"
+            [ngClass]="(boxShadow ? 'select-box-shadow' : '') + (softDisabled ? ' soft-disabled' : disabled ? ' disabled' : '')"
+            (click)="toggleDropdown()">
+            <div class="selected">{{ selectedLabels.join(",") || placeholder }}</div>
+            <span class="arrow" [class.open]="isOpen">&#9662;</span>
+        </div>
+    }
+    <div class="search-anchor">
+        @if(isOpen){
+            <div class="context-menu" [class.position-above]="dropdownPosition === 'above'">
+                @if(showSearch){
+                    <div class="reverse-bottom-margin">
+                        <app-custom-input
+                            [boxShadow]="false"
+                            [placeholder]="'Search...'"
+                            [value]="searchTerm"
+                            (valueChange)="setOptions($event)"></app-custom-input>
+                    </div>
+                }
+                <ul class="options" [ngStyle]="{width: dropdownWidth}" >
+                    @if(showClearSelection){
+                        <li 
+                            [class.highlighted]="-3 === highlightedIndex"
+                            (click)="selectOption('clear')"
+                            (mouseover)="highlightedIndex = -3">
+                            <div class="option-text">
+                                Clear Selection
+                            </div>
+                        </li>
+                    }
+                    @for(option of options; let i = $index; track i){
+                        <li [class.selected]="wholeObjectValue ? selectedValues.includes(option) : selectedValues.includes(option[valueKey])"
+                            [class.highlighted]="i === highlightedIndex"
+                            (click)="selectOption(option)"
+                            (mouseover)="highlightedIndex = i">
+                            @if(multiSelect){
+                                <app-custom-checkbox 
+                                    [value]="wholeObjectValue ? selectedValues.includes(option) : selectedValues.includes(option[valueKey])"></app-custom-checkbox>
+                            } 
+                            @if (displayKeys.length === 0){
+                                <div class="option-text">
+                                    {{ option[displayKey] }}
+                                </div>
+                            } @else {
+                                @for(key of displayKeys; let i = $index; track i){
+                                    {{ fieldNameMappings[key] ? option[fieldNameMappings[key]] : option[key] }}{{i + 1 < displayKeys.length ? ',' : ''}}
+                                }
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</div>

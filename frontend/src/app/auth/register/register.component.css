@@ -1,0 +1,131 @@
+.password-weak {
+    color: red;
+    font-size: 0.9em;
+    margin-left: 12px;
+}
+
+.password-medium {
+    color: orange;
+    font-size: 0.9em;
+    margin-left: 12px;
+}
+
+.password-strong {
+    color: green;
+    font-size: 0.9em;
+    margin-left: 12px;
+}
+
+.zip-container {
+    /* width: 80px; */
+    display: flex;
+}
+
+.city-state {
+    margin-left: 9px;
+}
+
+.default-edit-grid .field-container {
+    min-width: 200px;
+    max-width: 200px;
+}
+
+.page-size-register {
+    width: 95%;
+    margin: auto;
+}
+
+.grid-login {
+    display: grid;
+    grid-template-columns: 40% 40% 20%;
+}
+
+.shift-up-buttons {
+    margin-top: -50px;
+}
+
+.shift-up-kids {
+    margin-top: -40px;
+}
+
+.register-margin {
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 15px;
+}
+
+.login-top-margin {
+    margin-top: 20vh;
+}
+
+.login-caption-margin {
+    margin-top: 20vh;
+}
+
+.check-header {
+    margin: 14px 12px 10px 12px;
+}
+
+.icon-background {
+    padding-top: 40vh;
+    padding-left: 10vw;
+    background-color: rgb(165, 165, 165);
+}
+
+.huge-text {
+    margin-top: 0px;
+}
+
+.header-register-container {
+    max-width: 600px;
+    margin: auto 2vw auto auto;
+    /* margin: auto; */
+    /* float: left; */
+}
+
+.header-logo-register {
+    width: 10vw;
+    max-width: 143px;
+    margin-left: 35px;
+    margin-top: 18px;
+    padding-bottom: 18px;
+    /* float: left; */
+}
+
+@media only screen and (max-width: 768px) {
+    .default-edit-grid .field-container {
+        min-width: 300px;
+        max-width: 300px;
+    }
+
+    .city-state {
+        margin-top: 8px;
+    }
+
+    .shift-up-kids {
+        margin-top: 12px;
+    }
+
+    .shift-up-buttons {
+        margin-top: 12px;
+    }
+
+    .header-logo-register {
+        width: 26vw;
+        margin-left: 20px;
+        margin-top: 20px;
+        /* max-height: 143px; */
+        /* float: left; */
+    }
+
+    .login-top-margin {
+        margin-top: 4vh;
+    }
+
+    .icon-background {
+        padding-top: 0;
+        padding-left: 0;
+        /* height: auto; */
+    }
+
+}

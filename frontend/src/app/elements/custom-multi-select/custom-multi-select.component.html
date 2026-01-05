@@ -1,0 +1,24 @@
+
+<!-- {{isOpen}} -->
+
+<div class="custom-select" (click)="toggleDropdown()">
+    <div class="selected">{{ selectedLabels.join(",") || placeholder }}</div>
+    <span class="arrow" [class.open]="isOpen">&#9662;</span>
+    @if(isOpen){
+        <ul class="options" [ngStyle]="{width: dropdownWidth}" >
+            @for(option of options; let i = $index; track i){
+                <li [class.selected]="selectedValues.includes(option[valueKey])"
+                    [class.highlighted]="i === highlightedIndex"
+                    (click)="selectOption(option)"
+                    (mouseover)="highlightedIndex = i">
+                    @if(multiSelect){
+                        <app-custom-checkbox 
+                            (valueChange)="selectOption(option)"
+                            [value]="selectedValues.includes(option[valueKey])"></app-custom-checkbox>
+                    } 
+                    {{ option[displayKey] }}
+                </li>
+            }
+        </ul>
+    }
+</div>

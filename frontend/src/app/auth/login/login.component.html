@@ -1,0 +1,97 @@
+
+@if(errorInfo.isError){
+    <div class="top-space-sm">
+        <app-error-message [errorInfo]="errorInfo"></app-error-message>
+    </div>
+}
+
+@if(registration){
+    <app-register
+        (onCancelRegistration)="cancelRegistration()"    
+        ></app-register>
+} @else {
+    <div class="login-width">
+        <div [ngClass]="registration ? ' page-size-register' : 'margin-default page-size-login'">
+            <div>
+                <div class="grid-login">
+                    <div class="field-container">
+                        <h5 for="emailAddress">Email</h5>
+                        <!-- (onEnterKey)="onUsernameEnter()"  -->
+                        <app-custom-input 
+                            type="text" 
+                            id="emailAddress" 
+                            name="emailAddress" 
+                            placeholder="Email"
+                            (onValueChanged)="emailChanged()" 
+                            class="form-control" 
+                            (onEnter)="focusPassword()"
+                            [(value)]="authServ.login.emailAddress"
+                            (focusout)="onEmailFocusOut()"
+                            ></app-custom-input>
+                        @if(emailInvalid && !emailIsFocused){
+                            <div class="invalid-message">
+                                Please Enter a valid email address!
+                            </div>
+                        }
+                    </div>
+                    <div class="field-container">
+                        <h5 for="password">Password</h5>
+                        <app-custom-input 
+                            #passwordBox 
+                            type="password" 
+                            placeholder="Password" 
+                            id="password" 
+                            name="password" 
+                            class="form-control" 
+                            (onEnter)="submitLogin()"
+                            [(value)]="authServ.login.password"
+                            ></app-custom-input>
+                    </div>
+                    <!-- <div class="grid100 form-groups">             
+                        @if(loadingAzure){
+                            <button stylingMode="contained"
+                                style="background-color:rgb(165, 162, 150); color: white" text="Sign In">
+                                <div *dxTemplate="let data of 'content'">
+                                    <load-indicator height="20" width="20"
+                                        style="margin: none; float: left;"></load-indicator>
+                                    <span class='button-text'>Sign In With Microsoft</span>
+                                </div>
+                            </button> 
+                        } @else {
+                            <button id="azureAuth" stylingMode="contained"
+                                text="Sign In With Microsoft" (onClick)="loginWithAzure()"
+                                style="background-color:rgb(18, 136, 204); color: rgb(255, 255, 255)">
+                            </button>
+                        }
+                    </div> -->
+                    <div class="field-container">                    
+                        <h5 class="label-spacer"></h5>
+                        @if(loading){
+                            <app-custom-button stylingMode="contained" 
+                                width="100%"
+                                [loading]="loading" >
+                                Sign In
+                            </app-custom-button>
+                        } @else {
+                            <app-custom-button stylingMode="contained" 
+                                width="100%"
+                                (buttonClick)="submitLogin()">
+                                Sign In
+                            </app-custom-button>
+                        }
+                    </div>
+                </div>
+                <div class="info-message">
+                    Don't have an account yet?
+                    <a href (click)="beginRegistration($event)" 
+                        class="link">
+                        Register here.
+                    </a> 
+                </div>
+            </div>
+            <br/>
+        </div>
+    </div>
+}
+
+    

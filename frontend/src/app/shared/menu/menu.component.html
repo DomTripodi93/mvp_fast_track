@@ -1,0 +1,86 @@
+
+<div class="sticky" id="myHeader" (click)="contextClick()">
+    <!-- <div [ngClass]="menuService.menuVisible ? 'block-head' : ''" class='grid-menu'> -->
+    <div 
+        [ngClass]="menuService.menuVisible ? 'block-heading' : ''" class='grid-menu-vert'>
+        <div (click)="menuService.toggleMenu(!menuService.menuVisible)" class="hamburger">
+            &#9776;
+        </div>
+        @if(menuService.menuVisible){            
+            <div class="width-fixed-sm nav-menu grid-menu">
+                <div>
+                    <div (click)="menuService.toggleMenu(!menuService.menuVisible)" class="hamburger">
+                        &#9776;
+                    </div>
+                </div>
+                <div class="nav-padding">
+                    @for(menuItem of menuService.menuSections; let index = $index; track index){
+                        <div >
+                        @if(menuItem.menuItems.length === 0){
+                            <div class="border-box pointer top-space-sm"
+                                (click)="menuService.navigateTo(menuItem.itemValue)">
+                                <div class="grid-dropdown-flat">
+                                    <img class="menu-icon " 
+                                        [src]="menuItem.iconSrc" /> 
+                                    <h3 class="menu-margins center-text">
+                                        {{ menuItem.itemText }}
+                                    </h3>
+                                </div>
+                            </div>
+                        }
+                        @if(menuItem.menuItems.length > 0) {
+    
+                            <div class="border-box pointer top-space-sm"
+                                (click)="menuService.openMenuOption(menuItem.id)">
+                                <div class="grid-dropdown-flat">
+                                    @if (menuItem.itemText === 'Events'){
+                                        <div class="icon-container">
+                                            <img class="menu-icon " 
+                                                [src]="menuItem.iconSrc" /> 
+                                            <!-- <span class="day-overlay">67</span> -->
+                                            <span class="day-overlay">{{ dayOfMonth }}</span>
+                                        </div>
+                                    } @else {
+                                        <img class="menu-icon " 
+                                            [src]="menuItem.iconSrc" /> 
+                                    }
+                                    <h3 class="menu-margins center-text">
+                                        {{ menuItem.itemText }}
+                                    </h3>
+                                    @if(menuService.subMenuOpened === menuItem.id){
+                                        <img  class="menu-icon-arrow " 
+                                            src="/assets/arrowUp.svg" /> 
+                                    } @else {
+                                        <img class="menu-icon-arrow " 
+                                            src="/assets/arrowDown.svg" /> 
+                                    }
+                                </div>
+                                @if(menuService.menuVisible && menuService.subMenuOpened === menuItem.id){
+                                    <div class="accordion-content" 
+                                        @accordionAnimation>
+                                        <div class="width-fixed-sub-menu">
+                                            @for(subMenuItem of menuItem.menuItems; let si_index = $index; track si_index){
+                                                <div>
+                                                    <div class="border-top pointer"
+                                                        (click)="menuService.navigateTo(subMenuItem.itemValue)">
+                                                        <div class="grid100-flat">
+                                                            <p class="sub-menu-text centered">
+                                                                {{ subMenuItem.itemText }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }   
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

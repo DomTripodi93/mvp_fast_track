@@ -1,0 +1,467 @@
+@if(dataset && dataset.length > 0) {
+    @if(gridInfoPrepComplete){
+        <!-- {{displayKeys}} -->
+        <div class="table-and-buttons">
+            @if(allowExporting || allowAdding || showGridButtons){
+                <div class="align-right">
+                    <div class="grid-buttons">
+                        @if(allowBulkUpload){
+			                <div class="field-container">
+                                <app-custom-button (buttonClick)="onStartBulkUpload.emit()"
+                                    variant="info">
+                                    Bulk Upload
+                                </app-custom-button>
+                            </div>
+                        }
+                        @if(allowExporting ){
+			                <div class="field-container">
+                                <app-custom-button (buttonClick)="exportGrid()">
+                                    Export Excel
+                                </app-custom-button>
+                            </div>
+                        }
+                        @if(allowAdding){
+			                <div class="field-container">
+                                <app-custom-button (buttonClick)="onAddClick()"
+                                    variant="success">
+                                    Add New +
+                                </app-custom-button>
+                            </div>
+                        }
+                        @if(allowCancelUpload){
+			                <div class="field-container">
+                                <app-custom-button (buttonClick)="onCancelBulkUpload.emit()"
+                                    variant="danger">
+                                    Cancel Upload
+                                </app-custom-button>
+                            </div>
+                        }
+                        @if(allowRestartUpload){
+			                <div class="field-container">
+                                <app-custom-button (buttonClick)="onRestartBulkUpload.emit()"
+                                    variant="primary">
+                                    Change File
+                                </app-custom-button>
+                            </div>
+                        }
+                        @if(allowCompleteUpload){
+			                <div class="field-container">
+                                <app-custom-button (buttonClick)="onCompleteBulkUpload.emit()"
+                                    variant="success">
+                                    Submit Upload
+                                </app-custom-button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            <!-- <cdk-virtual-scroll-viewport itemSize="26.26" style="height: 70vh; width: 1000px"> -->
+            <div class="table-window" [ngStyle]="{height: gridHeight, width: gridWidth, maxWidth: gridMaxWidth}">
+                <table>
+                    <thead cdkDropList 
+                        cdkDropListLockAxis="x" 
+                        (cdkDropListDropped)="dropHeader($event)">
+                        <tr>
+                            @for(column of displayKeys; let i = $index; track i){
+                                <th #headerCell
+                                    (contextmenu)="toggleContextMenu(true, column, $event)"
+                                    [ngStyle]="columnHeaderStyles[column]" 
+                                    appResizableColumn
+                                    [isSticky]="fixedLeft.includes(column) || fixedRight.includes(column)"
+                                    [columnWidth]="
+                                        columnWidths[column] ? columnWidths[column] : 
+                                            (fieldWidth[column] ? fieldWidth[column] : defaultWidth)"
+                                    (setColumnWidth)="setColumnWidth($event, column)"
+                                    >
+                                    <div class="top-border-sticky"></div>
+                                    <!-- <div [ngClass]="showFilters ? 'header-width-icon' : ''"> -->
+                                    <div>
+                                        <div cdkDrag class="pointer cell-text middle "
+                                            (click)="addSortKey($event, column)">
+                                            {{column in sortKeys ? sortKeys[column] ? "&uarr;" : "&darr;" : ""}}
+                                            {{sortOrder.length > 1 ? sortOrderNum[column] : ""}}
+                                            {{allDisplayNames[column]}}
+                                        </div>
+                                        <!-- @if(showFilters){
+                                            <i class="icon-filter icon-right"
+                                                (click)="clickFilter(column)">
+                                            </i>
+                                        } -->
+                                    </div>
+                                    <!-- <span class="resizer" (mousedown)="onResizeStart($event, i)"></span> -->
+                                </th>
+                            }
+                            @if(linkDetail){
+                                <th #headerCell
+                                    [ngStyle]="columnHeaderStyles['detailLink']" 
+                                    appResizableColumn
+                                    [isSticky]="fixedLeft.includes('detailLink') || fixedRight.includes('detailLink')"
+                                    [columnWidth]="editColumnWidth"
+                                    (setColumnWidth)="setColumnWidth($event, 'detailLink')"
+                                    >
+                                </th>
+                            }
+                            @if(allowEditing && showEditButtons){
+                                <th #headerCell
+                                    [ngStyle]="columnHeaderStyles['editLink']" 
+                                    appResizableColumn
+                                    [isSticky]="fixedLeft.includes('detailLink') || fixedRight.includes('detailLink')"
+                                    [columnWidth]="editColumnWidth"
+                                    (setColumnWidth)="setColumnWidth($event, 'editLink')"
+                                    >
+                                </th>
+                                <!-- @if(editRowIndex !== -1 && !hasOtherButtons){
+                                    <th #headerCell
+                                        [ngStyle]="columnHeaderStyles['editLink']" 
+                                        appResizableColumn
+                                        [isSticky]="fixedLeft.includes('editLink') || fixedRight.includes('editLink')"
+                                        [columnWidth]="editColumnWidth"
+                                        (setColumnWidth)="setColumnWidth($event, 'editLink')"
+                                        >
+                                    </th>
+                                } -->
+                            }
+                            @if(allowDeleting){
+                                <th #headerCell
+                                    [ngStyle]="columnHeaderStyles['deleteLink']" 
+                                    appResizableColumn
+                                    [isSticky]="fixedLeft.includes('deleteLink') || fixedRight.includes('deleteLink')"
+                                    [columnWidth]="editColumnWidth"
+                                    (setColumnWidth)="setColumnWidth($event, 'deleteLink')"
+                                    >
+                                </th>
+                            }
+                            @if(this.customButton !== ""){
+                                <th #headerCell
+                                    [ngStyle]="columnHeaderStyles['customLink']" 
+                                    appResizableColumn
+                                    [isSticky]="fixedLeft.includes('customLink') || fixedRight.includes('customLink')"
+                                    [columnWidth]="editColumnWidth"
+                                    (setColumnWidth)="setColumnWidth($event, 'customLink')"
+                                    >
+                                </th>
+                            }
+                        </tr>
+                        @if(showFilters){
+                            <tr>
+                                @for(column of displayKeys; let i = $index; track i){
+                                    <th class="filter-row"
+                                        [ngStyle]="columnHeaderStyles[column]" >
+                                        <app-custom-input (valueChange)="filterDataset($event, column)"
+                                            [boxShadow]="false"
+                                            (iconEndClick)="clickFilter(column)"
+                                            iconEnd="icon-filter">
+                                        </app-custom-input>
+                                        @if(visibleFilterDropdown === column){
+                                            <app-custom-search #customSearch [optionList]="distinctColumnValues[column]"
+                                                [multiSelect]="true"
+                                                [showSelection]="false"
+                                                [startOpen]="true"
+                                                [boxShadow]="false"
+                                                [startingValue]="filterSelections[column] || []"
+                                                [placeholder]="'Filter by ' + allDisplayNames[column]"
+                                                (valueChange)="filterOnSelection($event, column)">
+                                            </app-custom-search>
+                                        }
+                                    </th>
+                                }
+                                @if(linkDetail){
+                                    <th #headerCell
+                                        [ngStyle]="columnHeaderStyles['detailLink']" 
+                                        appResizableColumn
+                                        [isSticky]="fixedLeft.includes('detailLink') || fixedRight.includes('detailLink')"
+                                        [columnWidth]="editColumnWidth"
+                                        (setColumnWidth)="setColumnWidth($event, 'detailLink')"
+                                        >
+                                    </th>
+                                }
+                                @if(allowEditing && showEditButtons){
+                                    <th #headerCell 
+                                        [ngStyle]="columnHeaderStyles['editLink']" 
+                                        [isSticky]="fixedLeft.includes('detailLink') || fixedRight.includes('detailLink')"
+                                        appResizableColumn
+                                        [columnWidth]="editColumnWidth"
+                                        (setColumnWidth)="setColumnWidth($event, 'editLink')"
+                                        >
+                                    </th>
+                                    <!-- @if(editRowIndex !== -1 && !hasOtherButtons){
+                                        <th #headerCell
+                                            [ngStyle]="columnHeaderStyles['editLink']" 
+                                            [isSticky]="fixedLeft.includes('editLink') || fixedRight.includes('editLink')"
+                                            appResizableColumn
+                                            [columnWidth]="editColumnWidth"
+                                            (setColumnWidth)="setColumnWidth($event, 'editLink')"
+                                            >
+                                        </th>
+                                    } -->
+                                }
+                                @if(allowDeleting){
+                                    <th #headerCell
+                                        [ngStyle]="columnHeaderStyles['deleteLink']" 
+                                        [isSticky]="fixedLeft.includes('deleteLink') || fixedRight.includes('deleteLink')"
+                                        appResizableColumn
+                                        [columnWidth]="editColumnWidth"
+                                        (setColumnWidth)="setColumnWidth($event, 'deleteLink')"
+                                        >
+                                    </th>
+                                }
+                                @if(this.customButton !== ""){
+                                    <th #headerCell
+                                        [ngStyle]="columnHeaderStyles['customLink']" 
+                                        [isSticky]="fixedLeft.includes('customLink') || fixedRight.includes('customLink')"
+                                        appResizableColumn
+                                        [columnWidth]="editColumnWidth"
+                                        (setColumnWidth)="setColumnWidth($event, 'customLink')"
+                                        >
+                                    </th>
+                                }
+                            </tr>
+                        }
+                    </thead>  
+                    <tbody>
+                        @if(showAddRow){
+                            <tr [ngClass]="shadeEveryOther ? 'every-other' : ''">
+                                @for(column of displayKeys; let columnIndex = $index; track columnIndex){
+                                    <td class="editing-td"
+                                        [ngStyle]="columnBodyStyles[column]"
+                                        [ngClass]="fieldTypes[column] === 'dropdown' ? 'dropdown' : ''">
+                                        @if (fieldTypes[column] === 'dropdown') {
+                                            <app-custom-search
+                                                [startingValue]="[editObject]"
+                                                [optionListKey]="dropdownInfo[column]['optionListKey']"
+                                                [wholeObjectValue]="true"
+                                                [showClearSelection]="true"
+                                                [boxShadow]="false"
+                                                [displayKeys]="dropdownKeys[column]"
+                                                (valueChange)="onSelectDropdownOption($event, column)">
+                                            </app-custom-search>
+                                        } @else if (fieldTypes[column] === 'boolean') {
+                                            <app-custom-checkbox [(value)]="editObject[column]"
+                                                [softDisabled]="false">
+                                            </app-custom-checkbox>
+                                        } @else if(fieldTypes[column] === 'Date'){
+                                            <app-custom-datebox
+                                                (onEnter)="saveEdit(editObject)"
+                                                [boxShadow]="false" 
+                                                [(value)]="editObject[column]">
+                                            </app-custom-datebox>
+                                        } @else {
+                                             <!-- {{fieldTypes[column]}} -->
+                                            <!-- [disabled]="!canEditFields.includes(column)" -->
+                                            <app-custom-input
+                                                (onEnter)="saveEdit(editObject)"
+                                                [boxShadow]="false" 
+                                                [(value)]="editObject[column]">
+                                            </app-custom-input>
+                                        }
+                                    </td>
+                                }
+                                <td [ngStyle]="columnBodyStyles['editLink']">
+                                    <div class="link" (click)="saveEdit(editObject)">
+                                        save
+                                    </div>
+                                <!-- </td>
+                                <td [ngStyle]="columnBodyStyles['editLink']"> -->
+                                    <div class="link" (click)="cancelEdit(editObject)">
+                                        cancel
+                                    </div>
+                                </td>
+                                @for(buttonSpace of otherButtonSpaces; let index = $index; track index){
+                                    <td [ngStyle]="columnBodyStyles['editLink']">
+                                    </td>
+                                }
+                            </tr>
+
+                        }
+                        @for(row of activeDataset; let rowIndex = $index; track rowIndex){
+                         <!-- <ng-content *cdkVirtualFor="let row of activeDataset; let rowIndex = index"> -->
+                            <tr [ngClass]="shadeEveryOther ? 'every-other' : ''">
+                            @for(column of displayKeys; let columnIndex = $index; track columnIndex){
+                                @if(editRowIndex === rowIndex && canEditFields.includes(column)){
+                                    <td class="editing-td"
+                                        [ngStyle]="columnBodyStyles[column]"
+                                        [ngClass]="fieldTypes[column] === 'dropdown' ? 'dropdown' : ''">
+                                        @if (fieldTypes[column] === 'dropdown') {
+                                            <app-custom-search
+                                                [startingValue]="[editObject]"
+                                                [optionListKey]="dropdownInfo[column]['optionListKey']"
+                                                [fieldNameMappings]="dropdownInfo[column]['fieldMap']"
+                                                [wholeObjectValue]="true"
+                                                [showClearSelection]="true"
+                                                [boxShadow]="false"
+                                                [displayKeys]="dropdownKeys[column]"
+                                                (valueChange)="onSelectDropdownOption($event, column)">
+                                            </app-custom-search>
+                                        } @else if (fieldTypes[column] === 'boolean') {
+                                            <app-custom-checkbox [(value)]="editObject[column]"
+                                                [softDisabled]="false">
+                                            </app-custom-checkbox>
+                                        } @else if(fieldTypes[column] === 'Date'){
+                                            <app-custom-datebox
+                                                (onEnter)="saveEdit(editObject)"
+                                                [boxShadow]="false" 
+                                                [(value)]="editObject[column]">
+                                            </app-custom-datebox>
+                                        } @else {
+                                            <!-- [disabled]="!canEditFields.includes(column)" -->
+                                            <app-custom-input
+                                                (onEnter)="saveEdit(editObject)"
+                                                [boxShadow]="false" 
+                                                [(value)]="editObject[column]">
+                                            </app-custom-input>
+                                        }
+                                    </td>
+                                } @else {
+                                    <td class="default-td" [ngClass]="fieldTypes[column] === 'boolean' ? 'check-box-td' : ''"
+                                        (dblclick)="allowEditing ? startEditing(rowIndex, row) : null"
+                                        [ngStyle]="columnBodyStyles[column]">
+                                        @if (fieldTypes[column] === 'dropdown') {
+                                            @for(key of dropdownInfo[column]["displayKeys"]; let i = $index; track i){
+                                                {{ row[key] }}{{i + 1 < dropdownInfo[column]["displayKeys"].length ? ',' : ''}}
+                                            }
+                                        } @else if (fieldTypes[column] === 'boolean') {
+                                            <app-custom-checkbox [(value)]="row[column]"
+                                                [softDisabled]="true">
+                                            </app-custom-checkbox>
+                                        } @else if (fieldTypes[column] === 'Date') {
+                                            {{helperServ.setDateString(row[column])}} 
+                                        } @else {
+                                            {{row[column]}}
+                                        }
+                                    </td>
+                                }
+                            }
+                            <!-- @if(linkDetail && editRowIndex !== rowIndex){ -->
+                            @if(linkDetail){
+                                <td [ngStyle]="columnBodyStyles['detailLink']">
+                                    <div class="link" (click)="onDetailClick(row)">
+                                        detail
+                                    </div>
+                                </td>
+                            }
+                            @if(allowEditing && showEditButtons){
+                                @if(editRowIndex === rowIndex){
+                                    <td [ngStyle]="columnBodyStyles['editLink']">
+                                        <div class="inline-link" (click)="saveEdit(editObject)">
+                                            save
+                                        </div>
+                                        <div class="inline-spacer"></div>
+                                    <!-- </td>
+                                    <td [ngStyle]="columnBodyStyles['editLink']"> -->
+                                        <div class="inline-link" (click)="cancelEdit(row)">
+                                            cancel
+                                        </div>
+                                    </td>
+                                    <!-- @for(buttonSpace of otherButtonSpaces; let index = $index; track index){
+                                        <td [ngStyle]="columnBodyStyles['editLink']">
+                                        </td>
+                                    } -->
+                                } @else {
+                                    <td [ngStyle]="columnBodyStyles['editLink']">
+                                        <div class="link" (click)="startEditing(rowIndex, row)">
+                                            edit
+                                        </div>
+                                    </td>
+                                    <!-- @if(editRowIndex !== -1 && !hasOtherButtons){
+                                        <td [ngStyle]="columnBodyStyles['editLink']">
+                                        </td>
+                                    } -->
+                                }
+                            }
+                            <!-- @if(allowDeleting && editRowIndex !== rowIndex){ -->
+                            @if(allowDeleting){
+                                <td [ngStyle]="columnBodyStyles['deleteLink']">
+                                    <div class="link" (click)="deleteRow(row)">
+                                        delete
+                                    </div>
+                                </td>
+                            }
+                            @if(this.customButton !== ""){
+                                <td [ngStyle]="columnBodyStyles['deleteLink']">
+                                    <div class="link" (click)="onCustomClick.emit(row)">
+                                        {{customButton}}
+                                    </div>
+                                </td>
+                            }
+                            </tr>
+                            
+                         <!-- </ng-content> -->
+                        }
+                    </tbody>
+                </table>
+            <!-- </cdk-virtual-scroll-viewport> -->
+            </div>
+        </div>
+        
+    } @else {
+        <div class="centered middle">
+            <app-loading-spinner width="40px" height="40px">
+            </app-loading-spinner>
+        </div>
+    }
+} @else if (dataset && dataset.length == 0) {
+    <div class="table-and-buttons">
+        <div class="align-right">
+            <div class="grid-buttons">
+                @if(allowBulkUpload){
+                    <div class="field-container">
+                        <app-custom-button (buttonClick)="onStartBulkUpload.emit()"
+                            variant="info">
+                            Bulk Upload
+                        </app-custom-button>
+                    </div>
+                }
+                @if(allowAdding){
+                    <div class="field-container">
+                        <app-custom-button (buttonClick)="onAddClick()"
+                            variant="success">
+                            Add New +
+                        </app-custom-button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <h5>
+        No Results Found
+    </h5>
+}
+@if(headerContextMenu.willContextMenuShow){
+    <div
+        class="context-menu"
+        [style.left.px]="headerContextMenu.pageX"
+        [style.top.px]="headerContextMenu.pageY">
+        @if(headerContextMenu.columnIsFixedRight){
+            <div class="context-button">
+                <app-custom-button variant="gray1" width="70px"
+                    (buttonClick)="setFixed('none')">
+                    Unfix
+                </app-custom-button>
+            </div>
+        } @else {
+            <div class="context-button">
+                <app-custom-button variant="gray1" 
+                    width="70px"
+                    (buttonClick)="setFixed('right')">
+                    Fix Right
+                </app-custom-button>
+            </div>
+        }
+        
+        @if(headerContextMenu.columnIsFixedLeft){
+            <div class="context-button">
+                <app-custom-button variant="gray2" width="70px"
+                    (buttonClick)="setFixed('none')">
+                    Unfix
+                </app-custom-button>
+            </div>
+        }  @else {
+            <div class="context-button">
+                <app-custom-button variant="gray2" width="70px"
+                    (buttonClick)="setFixed('left')">
+                    Fix Left
+                </app-custom-button>
+            </div>
+        }
+    </div>
+}

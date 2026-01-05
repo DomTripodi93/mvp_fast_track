@@ -1,0 +1,17 @@
+<div class="checkbox-wrapper"
+    (click)="toggle($event)">
+    <div [ngClass]="softDisabled ? 'soft-disabled' : disabled ? 'disabled' : ''" 
+        [ngStyle]="styles"
+        class="checkbox-edge">
+        <input
+            class="checkbox"
+            type="checkbox"
+            [ngStyle]="styles"
+            [checked]="value"
+            [disabled]="disabled"
+        />
+    </div>
+    @if(label !== ""){
+        <div class="check-label" [ngClass]="labelStyles">{{ label }}</div>
+    }
+</div>

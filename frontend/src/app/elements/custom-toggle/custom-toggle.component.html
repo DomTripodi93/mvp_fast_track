@@ -1,0 +1,12 @@
+<div  (click)="toggle($event)" class="toggle-wrapper">
+    <div [ngClass]="softDisabled ? 'soft-disabled' : disabled ? 'disabled' : ''" 
+        class="toggle-edge">
+        <div class="toggle-switch" [class.on]="value" [class.disabled]="disabled"
+            [ngStyle]="toggleStyles">
+            <span class="toggle-knob" [ngStyle]="knobStyles"></span>
+        </div>
+    </div>
+    @if(label !== ""){
+        <div class="toggle-label" [ngClass]="labelStyles">{{ label }}</div>
+    }
+</div>

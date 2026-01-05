@@ -1,0 +1,25 @@
+
+
+.error,
+.error h5 {
+    background-color: rgb(114, 0, 0);
+    color: white;
+    padding: 3px;
+    text-shadow: none;
+}
+
+.inner-error {
+    max-width: 900px;
+    tab-size: 4;
+    /* text-align: center; */
+    margin: 12px;
+    white-space: pre;
+}
+
+.inner-error-top {
+    max-width: 900px;
+    tab-size: 4;
+    /* text-align: center; */
+    margin: 5px;
+    white-space: pre;
+}

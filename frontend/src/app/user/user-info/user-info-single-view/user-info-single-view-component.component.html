@@ -1,0 +1,235 @@
+
+<div class="separator"></div>
+@if(selectedUserSettings.cityStatePrivacyMode !== "Hidden"){ 
+    <div class="user-view-grid">
+        <div class="field-container">
+            <h5 class="label-sm">Location</h5>
+        </div>
+        <div class="field-container">
+            <!-- <label class="field-label">Zip Code:</label> -->
+            <div class="field-edit">
+                <!-- {{selectedUserInfo.userCity ? " City & State: " : ""}} -->
+                {{selectedUserInfo.userCity + (selectedUserInfo.userState ? "," : "")}}
+                {{selectedUserInfo.userState}},
+                {{selectedUserInfo.zipCode}}
+            </div>
+        </div>
+        <!-- <div class="field-container">
+            <h5 class="label-spacer" for="schoolList"></h5>
+            <label class="field-label">Country (Only Available in USA):</label>
+            <div class="field-edit">
+                {{selectedUserInfo.userCountry}}
+            </div>
+        </div> -->
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserSettings.cityStatePrivacyMode}}
+            </div>
+        </div>
+    </div>
+    <div class="separator"></div>
+}
+<!-- About Me -->
+    <div class="user-view-grid">
+    <div class="field-container">
+        <h5 class="label-sm">About Me</h5>
+    </div>
+    <div class="field-container">
+        <div class="field-edit">
+            <!-- <div [innerHTML]="formatIntroText(selectedUserInfo.introText)"></div> -->
+            <!-- {{selectedUserInfo.introText}} -->
+            <pre class="intro-text-pre">
+{{selectedUserInfo.introText}}
+            </pre>
+        </div>
+    </div>
+</div>
+<div class="separator"></div>
+<!-- Non-Editing View  -->
+@if(selectedUserSettings.emailPrivacyMode !== "Hidden" || selectedUserSettings.phonePrivacyMode !== "Hidden"){
+    <div class="user-view-grid">
+        <!-- Profile Privacy -->
+        <!-- <div class="field-container">
+                            <h5 class="label-sm">Profile Privacy Mode</h5>
+                        </div>
+                        <div class="field-container">
+                            <div class="field-edit">
+                                {{selectedUserSettings.profilePrivacyMode}}
+                            </div>
+                        </div> -->
+        <!-- Name -->
+        <!-- <div></div> -->
+        @if(selectedUserSettings.emailPrivacyMode !== "Hidden"){
+            <div class="field-container">
+                <h5 class="label-sm">Email</h5>
+            </div>
+            <div class="field-container">
+                <div class="field-edit">
+                    {{selectedUserInfo.emailAddress}}
+                </div>
+            </div>
+            <div class="field-container">
+                <div class="field-edit">
+                    {{selectedUserSettings.emailPrivacyMode}}
+                </div>
+            </div>
+        }
+        @if(selectedUserSettings.phonePrivacyMode !== "Hidden"){
+            <!-- Phone -->
+            <div class="field-container">
+                <h5 class="label-sm">Phone</h5>
+            </div>
+            <div class="field-container">
+                <div class="field-edit">
+                    {{selectedUserInfo.phoneNumber}}
+                </div>
+            </div>
+            <div class="field-container">
+                <div class="field-edit">
+                    {{selectedUserSettings.phonePrivacyMode}}
+                </div>
+            </div>
+        }
+    </div>
+}
+@if(
+    selectedUserSettings.birthdayPrivacyMode !== "Hidden" ||
+    selectedUserSettings.sexualOrientationPrivacyMode !== "Hidden" ||
+    selectedUserSettings.religionPrivacyMode !== "Hidden" ||
+    selectedUserSettings.politicalPrivacyMode !== "Hidden" 
+){ 
+<div class="separator"></div>
+}
+@if(selectedUserSettings.birthdayPrivacyMode !== "Hidden"){ 
+    <div class="user-view-grid">
+        <!-- Birthday -->
+        <div class="field-container">
+            <h5 class="label-sm">Birthday</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserInfo.birthday ? helperServ.setDateTimeForDisplay(selectedUserInfo.birthday) : ""}}
+            </div>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserSettings.birthdayPrivacyMode}}
+            </div>
+        </div>
+    </div>
+}
+@if(selectedUserSettings.sexualOrientationPrivacyMode !== "Hidden"){ 
+    <div class="user-view-grid">
+        <!-- Sexual Orientation -->
+        <div class="field-container">
+            <h5 class="label-sm">Orientation</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserInfo.sexualOrientation}}
+            </div>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserSettings.sexualOrientationPrivacyMode}}
+            </div>
+        </div>
+    </div>
+}
+@if(selectedUserSettings.religionPrivacyMode !== "Hidden"){ 
+    <div class="user-view-grid">
+        <!-- Religion -->
+        <div class="field-container">
+            <h5 class="label-sm">Religion</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserInfo.religion}}
+            </div>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserSettings.religionPrivacyMode}}
+            </div>
+        </div>
+    </div>
+}
+@if(selectedUserSettings.politicalPrivacyMode !== "Hidden"){ 
+    <div class="user-view-grid">
+        <!-- Political -->
+        <div class="field-container">
+            <h5 class="label-sm">Political</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserInfo.politicalAffiliation}}
+            </div>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserSettings.politicalPrivacyMode}}
+            </div>
+        </div>
+    </div>
+}
+@if(selectedUserSettings.ethnicityPrivacyMode !== "Hidden"){ 
+    <div class="separator"></div>
+    <div class="user-view-grid">
+        <!-- Ethnicity -->
+        <div class="field-container">
+            <h5 class="label-sm">Ethnicity</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserInfo.ethnicity}}
+            </div>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserSettings.ethnicityPrivacyMode}}
+            </div>
+        </div>
+        <div class="field-container">
+            <h5 class="label-sm">Sub-Eth.</h5>
+        </div>
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserInfo.ethnicitySub}}
+            </div>
+        </div>
+        <div></div>
+    </div>
+}
+@if(selectedUserSettings.hasKidsPrivacyMode !== "Hidden"){
+    <div class="separator"></div>
+    <div class="user-view-grid">
+        <!-- Kids -->
+        <div class="field-container">
+            <h5 class="label-sm">Kids/Schools</h5>
+        </div>
+        @if(hasKids){
+            <div class="field-container">
+                <div class="field-edit">
+                    Has Kids in {{formatKidsAreIn()}}
+                </div>
+            </div>
+        } @else {
+            <div class="field-container">
+                <div class="field-edit">
+                    Has No School Aged Kids
+                </div>
+            </div>
+        }
+        <!-- <div class="field-container">
+            <div class="field-edit centered">
+                <app-custom-checkbox size="22px" label="Have Kids" [(value)]="hasKids"
+                    [softDisabled]="true"></app-custom-checkbox>
+            </div>
+        </div> -->
+        <div class="field-container">
+            <div class="field-edit">
+                {{selectedUserSettings.hasKidsPrivacyMode}}
+            </div>
+        </div>
+    </div>
+}

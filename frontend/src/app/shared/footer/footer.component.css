@@ -1,0 +1,32 @@
+.links-grid {
+    display: grid;
+    grid-template-columns: 10em 20em 20em;
+    width: 50em;
+}
+
+.footer-banner {
+    /* margin-top: 40px; */
+    /* background-image: url("../../../assets/bg10.jpg"); */
+    background-color: rgb(177, 176, 176);
+    object-fit: cover;
+    overflow: hidden;
+    background-size: cover;
+    box-shadow: 3px 6px 10px 3px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    /* margin-left: -10vw; */
+    position: sticky;
+    top: 100vh;
+    /* padding-top: 5px; */
+}
+
+
+.logo-footer{
+    height: 50px;
+}
+
+@media only screen and (max-width:850px) {
+    .links-grid {
+        grid-template-columns: 20% 40% 40%;
+        width: 100%;
+    }
+}

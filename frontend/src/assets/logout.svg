@@ -1,0 +1,10 @@
+<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Door rectangle -->
+  <rect x="20" y="15" width="40" height="50" fill="none" stroke="#000000" stroke-width="4" rx="5" ry="5"/>
+  <!-- Door knob -->
+  <circle cx="50" cy="40" r="3" fill="#000000"/>
+  <!-- Arrow shaft -->
+  <line x1="10" y1="40" x2="35" y2="40" stroke="#000000" stroke-width="5" stroke-linecap="round"/>
+  <!-- Arrow head -->
+  <polygon points="30,30 40,40 30,50" fill="#000000"/>
+</svg>

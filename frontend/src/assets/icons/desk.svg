@@ -1,0 +1,15 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <!-- Monitor -->
+  <rect x="14" y="4" width="28" height="14" rx="3" stroke="currentColor" stroke-width="2" fill="none"/>
+  <!-- Monitor Stand -->
+  <rect x="25" y="19" width="6" height="3" rx="2" stroke="currentColor" stroke-width="4" fill="none"/>
+  <!-- Desk surface, left leg -->
+  <path d="M8 24 H32" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M8 24 V54" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <!-- Right side with drawers/leg -->
+  <path d="M32 24 H50 Q54 24 54 28 V54" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Drawers -->
+  <path d="M40 33 H52" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M40 42 H52" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <path d="M40 42 V25" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+</svg>

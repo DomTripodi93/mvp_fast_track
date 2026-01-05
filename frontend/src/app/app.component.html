@@ -1,0 +1,21 @@
+
+@if(helperServ.showConfirm ){
+    <app-custom-confirm 
+        [message]="helperServ.confirmationMessage"
+        [confirmText]="'Yes'"
+        [denyText]="'No'"
+        (handleResult)="helperServ.confirmationCallback($event)">
+    </app-custom-confirm>
+}
+
+
+<div class="site-behind">
+  @if(authServ.isAuthenticated){
+    <app-menu></app-menu>
+  }
+  <app-header></app-header>
+  <div class="contain-page">
+      <router-outlet></router-outlet>
+  </div>
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,45 @@
+
+@if(label !== ""){
+    <label >{{ label }}</label>
+}
+<div [ngClass]="(iconEnd !=='' || type.toLowerCase() === 'password') ? 'input-with-icon' : 'input-container'">
+    @if(iconStart !== ""){
+        <i (click)="iconStartClick.emit()" 
+            [ngClass]="iconStart + ' icon-left'"
+            [ngClass]="boxShadow ? 'input-box-shadow' : ''"></i>
+    }
+    <input #thisinput
+        [type]="type.toLowerCase() === 'password' ? showPassword ? 'text' : 'password' : type"
+        [placeholder]="placeholder"
+        [value]="value"
+        [disabled]="disabled || softDisabled"
+        [required]="required"
+        (keyup.enter)="onEnter.emit()"
+        (input)="onInput($event)"
+        [ngClass]="(boxShadow ? 'input-box-shadow' : '') 
+            + (
+                (iconEnd !=='' || type.toLowerCase() === 'password') ? 
+                    ' input-style-icon' : ' input-style'
+            ) + (softDisabled ? ' soft-disabled' : disabled ? ' disabled' : '')"
+        />
+        <!-- [ngClass]="iconEnd !=='' ? 'input-icon-end' : ''" -->
+    @if(iconEnd !== ""){
+        <span class="icon-right" 
+            (click)="iconEndClick.emit()" 
+            [ngClass]="boxShadow ? 'input-box-shadow' : ''">
+            <i
+                [ngClass]="iconEnd + ' '"></i>
+        </span>
+    }
+    @if(type.toLowerCase() === 'password'){
+        <span class="icon-right" 
+            (click)="setPassword(!this.showPassword)" 
+            [ngClass]="boxShadow ? 'input-box-shadow' : ''">
+            <i [ngClass]="this.showPassword ? 'icon-eye-crossed': 'icon-eye'"></i>
+        </span>
+    }
+    @if(loading){
+        <app-loading-spinner width="18px" height="18px">
+        </app-loading-spinner>
+    }
+</div>

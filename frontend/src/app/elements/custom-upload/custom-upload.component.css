@@ -1,0 +1,73 @@
+.upload-container {
+    border: 2px dashed #aaa;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    background: #dddddd;
+    max-width: 60vw;
+}
+
+.upload-container.drag-over {
+    border-color: #007bff;
+    background: #f0f8ff;
+}
+
+.selection {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 12px;
+}
+
+.file-item {
+    font-size: 14px;
+    padding: 10px 30px 10px 30px;
+    border-radius: 8px;
+    margin-top: 10px;
+    background-color: rgb(241, 241, 241);
+    border: 2px solid #aaa;
+}
+
+.pad-bold{
+    font-size: 15px;
+    display: inline;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.flex-left{
+    display: inline;
+    /* position: absolute; */
+    /* left: 0 */
+    float: right;
+    margin-top: -6px;
+}
+
+.inline-buttons{
+    display: inline;
+    margin: 0px 5px;
+}
+
+.image-preview-container {
+    position: relative;
+    margin: 10px auto auto auto;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+    border: 2px solid #aaa;
+}
+
+.image-preview {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    display: block;
+}
+
+.preview-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}

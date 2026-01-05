@@ -1,0 +1,103 @@
+.custom-select {
+    position: relative;
+    width: 100%;
+    background: white;
+    cursor: pointer;
+    /* 
+    font-size: 16px;
+    align-items: center;
+    justify-content: space-between;
+    */
+    display: flex;
+
+    box-sizing: border-box;
+    /* width: 100%; */
+    padding: 7px;
+    border-radius: 7px;
+    border: solid 1px rgb(180, 180, 180);
+}
+
+
+.select-box-shadow {
+    box-shadow: 1px 2px 2px gray;
+}
+
+.selected {
+    flex-grow: 1;
+    font-size: 13px;
+    line-height: 15px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.reverse-bottom-margin {
+    margin-bottom: -5px;
+}
+
+/* Dropdown Arrow */
+.arrow {
+    font-size: 13px;
+    line-height: 15px;
+    transition: transform 0.3s ease;
+}
+
+.arrow.open {
+    transform: rotate(180deg);
+}
+
+.search-anchor {
+    position: relative;
+}
+
+.context-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* list-style: none;
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 10; */
+    z-index: 10000;
+}
+
+/* Dropdown List */
+.options {
+    /* position: absolute;
+    top: 200;
+    right: 0; */
+    /* top: 100%; */
+    /* Ensures the dropdown appears below the select box */
+    /* left: 0; */
+    /* width: 100%; */
+    background: white;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.options li {
+    display: flex;
+    padding: 3px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.options li:hover,
+.options .highlighted {
+    background: #007bff;
+    color: white;
+}
+
+.options .selected {
+    font-weight: bold;
+}
+
+.option-text {
+    margin: 4px;
+    font-size: 12px;
+}

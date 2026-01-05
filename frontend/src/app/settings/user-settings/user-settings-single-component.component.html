@@ -1,0 +1,178 @@
+
+<div class="single-item-container">
+    @if(!addMode && !nested){
+        <div class="flex-any">
+            <div class="field-container">
+                @if(resultsLoaded){
+                    <app-custom-button stylingMode="contained" variant="danger"
+                        (click)="closeSingleComponent()">
+                        Close Detail
+                    </app-custom-button>
+                } 
+            </div>
+        </div>
+    } 
+    @if(errorInfo.isError){
+        <app-error-message [errorInfo]="errorInfo"></app-error-message>
+    }
+    <div class="default-edit-grid">
+        @if(savingChanges) {
+            <app-loading-spinner width="40px" height="40px">
+            </app-loading-spinner>
+        } @else {
+			<div class="field-container">
+                <label class="field-label">Profile Privacy Mode:</label>
+                <div class="field-edit">
+                    <app-custom-input  
+                        [(value)]="selectedUserSettings.profilePrivacyMode"
+                        [softDisabled]="(!editMode || noEditFields.includes('profilePrivacyMode')) && !addMode">
+                    </app-custom-input>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Ethnicity Privacy Mode:</label>
+                <div class="field-edit">
+                    <app-custom-input  
+                        [(value)]="selectedUserSettings.ethnicityPrivacyMode"
+                        [softDisabled]="(!editMode || noEditFields.includes('ethnicityPrivacyMode')) && !addMode">
+                    </app-custom-input>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Religion Privacy Mode:</label>
+                <div class="field-edit">
+                    <app-custom-input  
+                        [(value)]="selectedUserSettings.religionPrivacyMode"
+                        [softDisabled]="(!editMode || noEditFields.includes('religionPrivacyMode')) && !addMode">
+                    </app-custom-input>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Political Privacy Mode:</label>
+                <div class="field-edit">
+                    <app-custom-input  
+                        [(value)]="selectedUserSettings.politicalPrivacyMode"
+                        [softDisabled]="(!editMode || noEditFields.includes('politicalPrivacyMode')) && !addMode">
+                    </app-custom-input>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Sexual Orientation Privacy Mode:</label>
+                <div class="field-edit">
+                    <app-custom-input  
+                        [(value)]="selectedUserSettings.sexualOrientationPrivacyMode"
+                        [softDisabled]="(!editMode || noEditFields.includes('sexualOrientationPrivacyMode')) && !addMode">
+                    </app-custom-input>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Pronouns Privacy Mode:</label>
+                <div class="field-edit">
+                    <app-custom-input  
+                        [(value)]="selectedUserSettings.pronounsPrivacyMode"
+                        [softDisabled]="(!editMode || noEditFields.includes('pronounsPrivacyMode')) && !addMode">
+                    </app-custom-input>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Birthday Privacy Mode:</label>
+                <div class="field-edit">
+                    <app-custom-input  
+                        [(value)]="selectedUserSettings.birthdayPrivacyMode"
+                        [softDisabled]="(!editMode || noEditFields.includes('birthdayPrivacyMode')) && !addMode">
+                    </app-custom-input>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">City State Privacy Mode:</label>
+                <div class="field-edit">
+                    <app-custom-input  
+                        [(value)]="selectedUserSettings.cityStatePrivacyMode"
+                        [softDisabled]="(!editMode || noEditFields.includes('cityStatePrivacyMode')) && !addMode">
+                    </app-custom-input>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Email Privacy Mode:</label>
+                <div class="field-edit">
+                    <app-custom-input  
+                        [(value)]="selectedUserSettings.emailPrivacyMode"
+                        [softDisabled]="(!editMode || noEditFields.includes('emailPrivacyMode')) && !addMode">
+                    </app-custom-input>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Phone Privacy Mode:</label>
+                <div class="field-edit">
+                    <app-custom-input  
+                        [(value)]="selectedUserSettings.phonePrivacyMode"
+                        [softDisabled]="(!editMode || noEditFields.includes('phonePrivacyMode')) && !addMode">
+                    </app-custom-input>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Has Elementary Kids:</label>
+                <div class="field-edit centered">
+                    <app-custom-checkbox size='22px' 
+                        [(value)]="selectedUserSettings.hasElementaryKids"
+                        [softDisabled]="(!editMode || noEditFields.includes('hasElementaryKids')) && !addMode">
+                    </app-custom-checkbox>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Has Middle School Kids:</label>
+                <div class="field-edit centered">
+                    <app-custom-checkbox size='22px' 
+                        [(value)]="selectedUserSettings.hasMiddleSchoolKids"
+                        [softDisabled]="(!editMode || noEditFields.includes('hasMiddleSchoolKids')) && !addMode">
+                    </app-custom-checkbox>
+                </div>
+            </div>
+			<div class="field-container">
+                <label class="field-label">Has High School Kids:</label>
+                <div class="field-edit centered">
+                    <app-custom-checkbox size='22px' 
+                        [(value)]="selectedUserSettings.hasHighSchoolKids"
+                        [softDisabled]="(!editMode || noEditFields.includes('hasHighSchoolKids')) && !addMode">
+                    </app-custom-checkbox>
+                </div>
+            </div>
+        }
+    </div>
+    @if(editMode && !savingChanges){
+        <div class="save-button-grid">
+            <div class="field-container">
+                <app-custom-button stylingMode="contained" variant="danger"
+                    (click)="setEditMode(false)">
+                    Cancel
+                </app-custom-button>
+            </div>
+            <div class="field-container">
+                <app-custom-button stylingMode="contained" variant="success"
+                    (click)="upsertUserSettings()"
+                    [disabled]="!canSubmit">
+                    Submit
+                </app-custom-button>
+            </div>
+        </div>
+    } @else {
+        <div class="edit-button-grid">
+            @if(allowDeleting) {
+                <div class="field-container">
+                    <app-custom-button stylingMode="contained" variant="danger"
+                        (click)="deleteUserSettings()">
+                        Delete
+                    </app-custom-button>
+                </div>
+            }
+            @if(allowEditing) {
+                <div class="field-container">
+                    <app-custom-button stylingMode="contained" variant="primary"
+                        (click)="setEditMode(true)">
+                        Edit
+                    </app-custom-button>
+                </div>
+            }
+        </div>
+    }
+</div>

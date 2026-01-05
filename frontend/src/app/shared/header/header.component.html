@@ -1,0 +1,25 @@
+
+@if(menuServ.headingVisible && !authServ.isAuthenticated) {
+    <div id="Header" class='header-cover2'>
+        <div id="overlay">
+        </div>
+        <div class="head-grid">
+            <div class="logo-holder">
+                <img class="img-holder" 
+                    src="assets/logo.png" />
+            </div>
+            <div class="centered offset-top title-box">
+                <h1 class="title-text">Social Media built for 
+                    <div class="underline">
+                        socializing more 
+                    </div>
+                    instead of less
+                </h1>
+            </div>
+        </div>
+    </div>
+} @else {
+    <div class="heading-filler">
+
+    </div>
+}

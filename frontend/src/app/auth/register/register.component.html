@@ -1,0 +1,437 @@
+
+@if(errorInfo.isError){
+    <div class="top-space-sm">
+        <app-error-message [errorInfo]="errorInfo"></app-error-message>
+    </div>
+}
+
+<div class="login-width">
+    <div class="page-size-register">
+        <div class="default-edit-grid">
+            @if(savingChanges) {
+                <app-loading-spinner width="40px" height="40px">
+                </app-loading-spinner>
+            } @else {
+            <div class="field-container">
+                <h5 for="email">Email*</h5>
+                <!-- (onEnterKey)="onUsernameEnter()"  -->
+                <app-custom-input 
+                    type="text" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Email Address"
+                    (onValueChanged)="emailChanged()" 
+                    class="form-control" 
+                    (onEnter)="focusPassword()"
+                    [(value)]="authServ.authCreation.emailAddress"
+                    (focusout)="onEmailFocusOut()"
+                    ></app-custom-input>
+                    
+                @if(emailInvalid && !emailIsFocused){
+                    <div class="invalid-message">
+                        Please Enter a valid email address!
+                    </div>
+                }
+            </div>
+            <div class="field-container">
+                <h5 class="label" for="password">Password*</h5>
+                <app-custom-input 
+                    #passwordBox 
+                    type="password" 
+                    placeholder="Password" 
+                    id="password" 
+                    name="password" 
+                    class="form-control" 
+                    (onEnter)="focusPasswordConfirm()"
+                    (onValueChanged)="validatePasswords()"
+                    [(value)]="authServ.authCreation.password"
+                    ></app-custom-input>
+                @if(authServ.authCreation.password) {
+                    @if(!passwordHasCapital ){
+                        <div class="invalid-message field-width">
+                            Password must contain at least one capital letter
+                        </div>
+                    } @else if(!passwordHasNumber){
+                        <div class="invalid-message field-width">
+                            Password must contain at least one number
+                        </div>
+                    } @else if(!passwordHasSymbol){
+                        <div class="invalid-message field-width">
+                            Password must contain at least one symbol
+                        </div>
+                    } @else if(authServ.authCreation.password.length < 8){
+                        <div class="invalid-message field-width">
+                            Password must be at least 8 characters long
+                        </div>
+                    } 
+                }
+            </div>
+            <div class="field-container">
+                <h5 class="label" for="password confirm">Confirm Password*</h5>
+                <app-custom-input 
+                    #passwordConfirmBox 
+                    type="password" 
+                    placeholder="Password Confirm" 
+                    id="password confirm" 
+                    name="password confirm" 
+                    class="form-control" 
+                    (onValueChanged)="validatePasswords()"
+                    [(value)]="authServ.authCreation.passwordConfirm"
+                    ></app-custom-input>
+                @if(authServ.authCreation.passwordConfirm && !passwordsMatch){
+                    <div class="invalid-message field-width">
+                        Passwords must match
+                    </div>
+                }
+            </div>
+        <!-- <app-user-info-single
+            [selectedUserSettings]="authServ.registration.userSettings"
+            [selectedUserInfo]="authServ.registration.userInfo"
+            [(registrationUserValid)]="registrationUserValid"
+            [registration]="true"></app-user-info-single> -->
+            
+                <div class="field-container">
+                    <h5 class="label" for="profilePrivacyMode">Profile Privacy Mode</h5>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userSettings.profilePrivacyMode"
+                            [optionList]="optionServ.optionLists['privacyLevelsProfile']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                    <!-- <div class="field-label-sub">Display Name:</div>
+                    <div class="field-edit">
+                        <app-custom-input  
+                            [(value)]="authServ.registration.userInfo.displayName"
+                            [softDisabled]="(!(editMode || registration) || noEditFields.includes('displayName')) && !registration">
+                        </app-custom-input>
+                    </div> -->
+                </div>
+                <div class="field-container">
+                    <h5 class="label" for="firstName">First Name*</h5>
+                    <div class="field-edit">
+                        <app-custom-input  
+                            [(value)]="authServ.registration.userInfo.firstName">
+                        </app-custom-input>
+                    </div>
+                </div>
+                <div class="field-container">
+                    <h5 class="label" for="lastName">Last Name*</h5>
+                    <div class="field-edit">
+                        <app-custom-input  
+                            [(value)]="authServ.registration.userInfo.lastName">
+                        </app-custom-input>
+                    </div>
+                </div>
+                <div class="field-container">
+                    <h5 class="label" for="birthday">Birthday*</h5>
+                    <div class="field-edit">
+                        <app-custom-datebox  
+                            (onValueChanged)="validateBirthday()"
+                            [(value)]="authServ.registration.userInfo.birthday">
+                        </app-custom-datebox>
+                    </div>
+                    @if(authServ.registration.userInfo.birthday && !userIsOverEighteen){
+                        <div class="invalid-message">
+                            You must be 18 or older to use Tethee!
+                        </div>
+                    }
+                    <div class="field-label-sub">Birthday Privacy Mode:</div>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userSettings.birthdayPrivacyMode"
+                            [optionList]="optionServ.optionLists['privacyLevels']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                </div>
+                <div class="field-container">
+                    <h5 class="label" for="pronouns">Pronouns</h5>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userInfo.pronouns"
+                            [optionList]="optionServ.optionLists['pronouns']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                    <div class="field-label-sub">Pronouns Privacy Mode:</div>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userSettings.pronounsPrivacyMode"
+                            [optionList]="optionServ.optionLists['privacyLevels']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                </div>
+                <div class="field-container">
+                    <h5 class="label" for="sexualOrientation">Sexual Orientation</h5>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userInfo.sexualOrientation"
+                            [optionList]="optionServ.optionLists['sexuality']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                    <div class="field-label-sub">Sexual Orientation Privacy Mode:</div>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userSettings.sexualOrientationPrivacyMode"
+                            [optionList]="optionServ.optionLists['privacyLevels']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                </div>
+                <!-- <div class="field-container">
+                    <label class="field-label">User Address:</label>
+                    <div class="field-edit">
+                        <app-custom-input  
+                            [(value)]="authServ.registration.userInfo.userAddress"
+                            [softDisabled]="(!(editMode || registration) || noEditFields.includes('userAddress')) && !registration">
+                        </app-custom-input>
+                    </div>
+                </div> -->
+                <div class="field-container">
+                    <h5 class="label" for="location">Location Info*</h5>
+                    <label class="field-label">Zip Code:</label>
+                    <div class="field-edit">
+                        <app-custom-input  
+                            (onValueChanged)="setCityStateFromZip()"
+                            [(value)]="authServ.registration.userInfo.zipCode"
+                            (focusout)="onZipFocusOut()">
+                        </app-custom-input>
+                    </div>
+                    @if(invalidZip && !zipIsFocused){
+                        <div class="invalid-message">
+                            Please Enter a valid zip code!
+                        </div>
+                    }
+                    <div class="field-label-sub">
+                        {{authServ.registration.userInfo.userCity ? "City & State: " : ""}}
+                        {{authServ.registration.userInfo.userCity + (authServ.registration.userInfo.userState ? "," : "")}}
+                        {{authServ.registration.userInfo.userState}}
+                    </div>
+                </div>
+                <div class="field-container">
+                    <h5 class="label-spacer" for="schoolList"></h5>
+                    <label class="field-label">Country (Only Available in USA):</label>
+                    <div class="field-edit">
+                        <app-custom-input  
+                            [(value)]="authServ.registration.userInfo.userCountry"
+                            [softDisabled]="true">
+                        </app-custom-input>
+                    </div>
+                    <!-- <div class="field-edit">
+                        <app-custom-input  
+                            [(value)]="authServ.registration.userInfo.userCity">
+                        </app-custom-input>
+                    </div> -->
+                </div>
+                <div class="field-container">
+                    <h5 class="label-spacer" for="schoolList"></h5>
+                    <label class="field-label">Location Privacy Mode:</label>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userSettings.cityStatePrivacyMode"
+                            [optionList]="optionServ.optionLists['privacyLevels']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                    <!-- <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userInfo.userState"
+                            [optionList]="optionServ.optionLists['states']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div> -->
+                </div>
+                <div class="field-container">
+                    <h5 class="label" for="religion">Religious Group</h5>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userInfo.religion"
+                            [optionList]="optionServ.optionLists['religiousGroups']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                    <div class="field-label-sub">Religion Privacy Mode:</div>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userSettings.religionPrivacyMode"
+                            [optionList]="optionServ.optionLists['privacyLevels']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                </div>
+                <div class="field-container">
+                    <h5 class="label" for="politicalAffiliation">Political Affiliation</h5>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userInfo.politicalAffiliation"
+                            [optionList]="optionServ.optionLists['policitalParties']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                    <div class="field-label-sub">Political Privacy Mode:</div>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userSettings.politicalPrivacyMode"
+                            [optionList]="optionServ.optionLists['privacyLevels']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                </div>
+                <div class="field-container">
+                    <h5 class="label" for="ethnicity">Ethnicity</h5>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userInfo.ethnicity"
+                            [optionList]="optionServ.optionLists['ethnicityOptions']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                    <div class="field-label-sub">Ethnicity Sub:</div>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userInfo.ethnicitySub"
+                            [optionList]="optionServ.ethnicityDetailedOptions[authServ.registration.userInfo.ethnicity ?? 'Other']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                    <div class="field-label-sub">Ethnicity Privacy Mode:</div>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userSettings.ethnicityPrivacyMode"
+                            [optionList]="optionServ.optionLists['privacyLevels']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                </div>
+                <!-- @if(!(editMode || registration)){
+                    <div class="field-container">
+                        <label class="field-label">Last Accessed Date:</label>
+                        <div class="field-edit">
+                            <app-custom-datebox  
+                                [(value)]="authServ.registration.userInfo.lastAccessedDate"
+                                [softDisabled]="(!(editMode || registration) || noEditFields.includes('lastAccessedDate')) && !registration">
+                            </app-custom-datebox>
+                        </div>
+                    </div>
+                } -->
+                <div class="field-container shift-up-kids">
+                    <h5 class="label" for="schoolInfo">Kids/Schools</h5>
+                    <div class="field-edit centered">
+                        <app-custom-toggle size='22px' 
+                            label="I Have School Aged Kids"
+                            [(value)]="hasKids">
+                        </app-custom-toggle>
+                    </div>
+                    <div class="field-label-sub">Kids/Schools Privacy Mode:</div>
+                    <div class="field-edit">
+                        <app-custom-search
+                            [(valueSingle)]="authServ.registration.userSettings.hasKidsPrivacyMode"
+                            [optionList]="optionServ.optionLists['privacyLevels']"
+                            [showClearSelection]="false"
+                            [showSearch]="false"
+                            >
+                        </app-custom-search>
+                    </div>
+                </div>
+                @if(hasKids){
+                    <div class="field-container shift-up-kids">
+                        <!-- <h5 class="label-spacer" for="schoolList"></h5> -->
+                        <div class="check-header">
+                            <label class="field-label ">My Kids Are In:</label>
+                        </div>
+                        
+                        <!-- <div class="field-label-sub">Elementary School:</div> -->
+                        <div class="field-edit centered">
+                            <app-custom-checkbox size='22px' 
+                                [(value)]="authServ.registration.userSettings.hasPreschoolKids"
+                                label="Preschool">
+                            </app-custom-checkbox>
+                        </div>
+                        <div class="field-edit centered">
+                            <app-custom-checkbox size='22px' 
+                                [(value)]="authServ.registration.userSettings.hasElementaryKids"
+                                label="Elementary School">
+                            </app-custom-checkbox>
+                        </div>
+                        <div class="field-edit centered">
+                            <app-custom-checkbox size='22px' 
+                                [(value)]="authServ.registration.userSettings.hasMiddleSchoolKids"
+                                label="Middle School">
+                            </app-custom-checkbox>
+                        </div>
+                        <div class="field-edit centered">
+                            <app-custom-checkbox size='22px' 
+                                [(value)]="authServ.registration.userSettings.hasHighSchoolKids"
+                                label="High School">
+                            </app-custom-checkbox>
+                        </div>
+                        <div class="field-edit centered">
+                            <app-custom-checkbox size='22px' 
+                                [(value)]="authServ.registration.userSettings.hasCollegeKids"
+                                label="College">
+                            </app-custom-checkbox>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="save-button-grid shift-up-buttons">
+            <div class="field-container">
+                <app-custom-button stylingMode="contained" variant="danger"
+                    (click)="cancelRegistration()">
+                    Cancel
+                </app-custom-button>
+            </div>
+            <div class="field-container">
+                    @if(loading){
+                        <app-custom-button stylingMode="contained" 
+                            [loading]="loading" >
+                            Register
+                        </app-custom-button>
+                    } @else {
+                        <app-custom-button stylingMode="contained" 
+                            variant="success"
+                            (buttonClick)="submitRegistration()"
+                            [disabled]="!registrationUserValid">
+                            Register
+                        </app-custom-button>
+                    }
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+.toggle-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.toggle-label {
+    margin-left: 12px;
+    display: inline-block;
+}
+
+.toggle-edge {
+    margin-top: 3px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+
+.toggle-switch {
+    background: #ccc;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-switch.on {
+    background: #2d738f;
+}
+
+.toggle-knob {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    transition: left 0.2s, width 0.2s, height 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.toggle-switch.disabled {
+    cursor: not-allowed;
+    background: #e0e0e0;
+}
+
+.soft-disabled .toggle-switch {
+    background: #2d738f;
+}

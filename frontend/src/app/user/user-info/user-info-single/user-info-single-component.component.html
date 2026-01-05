@@ -1,0 +1,115 @@
+
+@if (isViewingProPic){
+    <app-user-picture 
+        [proPicUrl]="selectedUserInfo.profilePicture != '' ? selectedUserInfo.profilePicture : '/assets/DefaultProPic.png'"
+        [isEditingProPic]="isEditingProPic"
+        (onCloseComponent)="onCloseViewProPic()"
+        (onProPicChanged)="onProPicChanged()">
+    </app-user-picture>
+} 
+<!-- @if () {
+
+} -->
+<div class="profile-width">
+    <div class="page-size-user">
+        @if(userIsReady){
+            <div class="flex-any">
+                <div class="pro-pic-container">
+                    <img class="pro-pic-small"
+                        [src]="profilePictureCropped"
+                    />
+                    <div (click)="onClickViewProPic()" class="pro-pic-overlay">
+                        @if(allowEditing){
+                            <img
+                                (click)="onClickEditProPic()"
+                                class="edit-img-icon" src="/assets/edit.png" />
+                        }
+                    </div>
+                </div>
+                <!-- @else {
+                    <img class="pro-pic-small"
+                        [src]="selectedUserInfo.profilePicture != '' ? selectedUserInfo.profilePicture : '/assets/DefaultProPic.png'"
+                        />
+                } -->
+
+                @if(!editMode){
+                    <div class="display-name width100">
+                        <h3>
+                            {{selectedUserInfo.firstName}}
+                            {{selectedUserInfo.lastName}} 
+                            <div class="pronouns">
+                                ({{selectedUserInfo.pronouns}})
+                            </div>
+                        </h3>            
+                    </div>
+                    @if(allowEditing){
+                        <div class="inline">
+                            <div class="save-button-grid inline-buttons">
+                                <img class="edit-icon " 
+                                    src="/assets/edit.png"
+                                    (click)="setEditMode(true)" /> 
+                            </div>
+                        </div>
+                    }
+                } @else {
+                    <div class="field-container-name">
+                        <div class="field-edit">
+                            <app-custom-input  
+                                [(value)]="selectedUserInfo.firstName">
+                            </app-custom-input>
+                        </div>
+                    </div>
+                    <div class="field-container-name">
+                        <div class="field-edit">
+                            <app-custom-input  
+                                [(value)]="selectedUserInfo.lastName">
+                            </app-custom-input>
+                        </div>
+                    </div>
+                }
+            </div>
+            @if(errorInfo.isError){
+                <div class="top-space-sm">
+                    <app-error-message [errorInfo]="errorInfo"></app-error-message>
+                </div>
+            }
+            @if (editMode) {
+                <app-user-info-single-edit 
+                    [selectedUserInfo]="selectedUserInfo" 
+                    [selectedUserSettings]="selectedUserSettings"
+                    [editMode]="editMode"
+                    [hasKids]="hasKids"
+                    (onSubmit)="onConfirmUpsertUserInfo()"
+                    (onCancelEdit)="onConfirmCancelEditUserInfo()"
+                    [(canSubmit)]="canSubmit"></app-user-info-single-edit>
+            } @else {
+                <app-user-info-single-view 
+                    [hasKids]="hasKids"
+                    [kidsAreIn]="kidsAreIn"
+                    [selectedUserInfo]="selectedUserInfo" 
+                    [selectedUserSettings]="selectedUserSettings"></app-user-info-single-view>
+            }
+            <!-- @if(editMode && !savingChanges){
+                <div class="save-button-grid">
+                    <div class="field-container">
+                        <app-custom-button stylingMode="contained" variant="danger" (click)="setEditMode(false)">Cancel</app-custom-button>
+                    </div>
+                    <div class="field-container">
+                        <app-custom-button stylingMode="contained" variant="success" (click)="upsertUserInfo()" [disabled]="!canSubmit">Submit</app-custom-button>
+                    </div>
+                </div>
+            } @else {
+                <div class="edit-button-grid">
+                    @if(allowEditing){
+                        <div class="field-container">
+                            <app-custom-button stylingMode="contained" variant="primary" (click)="setEditMode(true)">Edit</app-custom-button>
+                        </div>
+                    }
+                </div>
+            } -->
+        } @else {
+            <app-loading-spinner width="40px" height="40px">
+            </app-loading-spinner>
+        }
+    </div>
+</div>
